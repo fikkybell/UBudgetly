@@ -1,0 +1,257 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: Inter Tight, sans-serif;
+   
+    
+}
+header{
+  
+    background-color: #fffaf4;
+   
+}
+
+.menu{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 40px;
+}
+
+.menu-list{
+    display: flex; 
+    list-style-type: none;
+    font-size: 14px;
+    width: 16%;
+    justify-content: space-between;
+    font-weight: 100;
+}
+
+.line{
+   border-bottom: 1px solid rgb(218, 214, 214); 
+    
+}
+
+.hero-section{
+ background-color: #fffaf4;
+  padding-bottom: 120px;
+  
+}
+.hero{
+    width: 60%;
+    margin: auto;
+    padding-top: 100px;
+}
+.hero-header{
+    font-size: 50px;
+    font-weight: 500;
+}
+
+.hero-sub{
+    margin-top: 20px;
+    width: 80%;
+    font-size: 14.5px;
+    line-height: 30px;
+    font-weight: 100;
+}
+
+.hero-buttons{
+    margin-top: 35px;
+    font-weight: 100;
+    font-size: 14px;
+
+}
+
+.hero-how{
+ width: 120px;
+ height: 44px;
+ background-color: black;
+ color: white;
+ border: none;
+ border-radius: 13px;
+ cursor: pointer; 
+}
+
+.hero-get{
+    all: unset; 
+    display: inline-block; 
+    cursor: pointer; 
+    margin-left: 20px;
+   
+}
+
+.section-two{
+    background-color: white;
+    margin-top: 120px;
+    margin-left: 150px;
+    margin-bottom: 60px;
+    display: flex;
+    justify-content: space-between;
+}
+.about-me{
+    margin-top: 150px;
+    width: 40%;
+    font-size: 14.5px;
+    line-height: 30px;
+    font-weight: 100;
+}
+.video-steps{
+    width: 25%;
+    margin-right: 150px;
+}
+.features-section{
+  background-color: #fffaf4;
+}
+.feature{
+    padding-top: 100px;
+    margin: auto;
+    width: 60%;
+    text-align: center;
+  }
+  .feature-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 60px;
+    font-weight: 100;
+    font-size: 14px;
+  }
+  
+ 
+  .checkmark {
+    display: inline-block;
+    height: 14px;
+    width: 14px;
+    border: solid #cc9e74;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+    margin-right: 10px;
+  }
+.features-how{
+    font-size: 50px;
+    font-weight: 500;
+    text-align: center;
+}
+.features-desc{
+    font-weight: 100;
+    font-size: 14px;
+    margin-top: 18px;
+}
+.video-how{
+margin-top: 30px;
+ width: 70%;
+}
+.howtouse{
+ margin-top: 50px;
+ text-align: center;
+}
+.video-step{
+   width: 43%;
+}
+.how-to-videos{
+ display: flex;
+ margin: 20px;
+}
+.cta{
+    width: 55%;
+}
+.cta-section{
+  display: flex;
+  margin: 100px 100px;
+}
+.cta-header{
+font-size: 50px;
+font-weight: 500;
+}
+.cta-sub{
+font-weight: 100;
+font-size: 14px;
+line-height: 30px;
+}
+
+.cta-button{
+ margin-top: 40px;
+ width: 120px;
+ height: 44px;
+ background-color: black;
+ color: white;
+ border: none;
+ border-radius: 13px;
+ cursor: pointer; 
+}
+
+.container {
+    background-color: #1E1F24;
+    color: white;
+    padding: 30px;
+    padding-top: 80px;
+    width: 100%;
+  }
+  
+  .content {
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: row;
+    width: 80%;
+    
+    cursor: pointer;
+  }
+  
+  .menu1 {
+    margin-right: 65px;
+  }
+  
+  .menu-title {
+    font-weight: 600;
+  }
+  
+  .menu-item {
+    font-size: 0.875rem;
+    color: #9B9B9B;
+    margin-top: 8px;
+  }
+  .footer-bottom{
+    padding-top: 70px;
+  }
+  .footer-text {
+    margin-top: 20px;
+    font-size: 0.875rem;
+  }
+  
+  .divider {
+    margin: 16px 0;
+    border-top: 0.5px solid #9B9B9B;
+  }
+  
+  .footer {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .copyright {
+    font-size: 0.875rem;
+    color: #9B9B9B;
+  }
+  
+  .links {
+    display: flex;
+    width: 40%;
+    justify-content: space-between;
+    cursor: pointer;
+  }
+  
+  .link-item {
+    font-size: 0.875rem;
+    color: #9B9B9B;
+  }
+  
+  .link-divider {
+    border-right: 1px solid #9B9B9B;
+    height: auto;
+  }
+  
+  
+ 
+  
+  
