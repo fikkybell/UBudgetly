@@ -46,15 +46,19 @@ header{
 .hero-header{
     font-size: 50px;
     font-weight: 500;
+    animation-name: slide-in-left; 
+  animation-duration: 1.5s; 
+  animation-timing-function: ease-in-out; 
 }
 
-.hero-sub{
-    margin-top: 20px;
-    width: 80%;
-    font-size: 14.5px;
-    line-height: 30px;
-    font-weight: 100;
+.hero-sub {
+  margin-top: 20px;
+  width: 80%;
+  font-size: 14.5px;
+  line-height: 30px;
+  font-weight: 100;
 }
+
 
 .hero-buttons{
     margin-top: 35px;
@@ -95,6 +99,19 @@ header{
     font-size: 14.5px;
     line-height: 30px;
     font-weight: 100;
+    animation-name: slide-in-bottom; 
+    animation-duration: 1.2s; 
+    animation-timing-function: ease-in-out; 
+}
+@keyframes slide-in-bottom {
+  from {
+      transform: translateY(100%); 
+      opacity: 0; 
+  }
+  to {
+      transform: translateY(0); 
+      opacity: 1; 
+  }
 }
 .video-steps{
     width: 25%;
@@ -250,8 +267,5 @@ line-height: 30px;
     border-right: 1px solid #9B9B9B;
     height: auto;
   }
-  
-  
- 
-  
+
   

@@ -1,10 +1,166 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="index.js"></script>
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="main.css">
+  <title>Sidebar Navigation</title>
 </head>
-
+<body>
+    <header class="header-main">
+        <a href="/"><img class="header-img" src="images/ubudgetlyW.png" alt=""></a>
+        
+    </header>
+  <div class="sidebar">
+    <ul>
+      <li><a href="#home" class="nav-link active" data-nav="home"><img class="img-nav" src="images/home.svg" alt="">Home</a></li>
+      <li><a href="#income" class="nav-link" data-nav="income"><img class="img-nav" src="images/income.svg" alt="">Income</a></li>
+      <li><a href="#expenses" class="nav-link" data-nav="services"><img class="img-nav" src="images/budget.svg" alt="">Expenses</a></li>
+      <li><a href="#budget" class="nav-link" data-nav="contact"><img class="img-nav" src="images/budget.svg" alt="">Budget</a></li>
+      <li class="help-nav"><a href="#help" class="nav-link" data-nav="contact"><img class="img-nav" src="images/help.svg" alt="">Help</a></li>
+    </ul>
+  </div>
+  <div class="content">
+    <section id="home">
+      <div class="home-header"><h4>Welcome, here is your overview of your budget</h4>
+      <button class="button">Add budget</button>
+      </div>
+  <div class="container-list">
+    <div class="expense-chart">Expenses</div>
+    <div class="budget chart">Budget</div>
+  </div>
+  <div class="spending-list">
+    <p class="text-sm">Spending History For the month</p>
+    <table class="spending-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Category</th>
+          <th>Budget Tracker</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Rice</td>
+          <td>Groceries</td>
+          <td>$200 / $500</td>
+        </tr>
+        <tr>
+          <td>Fuel</td>
+          <td>Utilities</td>
+          <td>$75 / $150</td>
+        </tr>
+        <tr>
+          <td>Movies</td>
+          <td>Entertainment</td>
+          <td>$50 / $100</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+      </section>
+      <!-- income -->
+      <section id="income" class="hidden">
+        <div class="section-input">
+            <h4>Add Monthly income</h4>
+    <form action="">
+        <div class="mt-2">
+            <label for="income" class="text-sm text-black-900">Income source</label>
+            <input
+              type="text"
+              id="income-source"
+              class="input-field"
+            />
+          </div>
+          
+          <div class="mt-2">
+            <label for="amount" class="text-sm text-black-900">Amount</label>
+            <input
+              type="text"
+              id="amount"
+              class="input-field"
+            />
+          </div>
+          <button class="button mt-2">Save</button>
+    </form>
+        </div>
+        <p class="income-total text-sm">Your income total is: 0</p>
+      </section>
+      <section id="expenses" class="hidden">
+        <div class="section-input">
+            <div class="section-header">
+                <h4>Add Expenses</h4>
+                <p class="add-more">Add more</p>
+            </div>
+            
+            <form action="">
+                <div class="mt-2">
+                    <label for="" class="text-sm text-black-900">Expense Name</label>
+                    <input
+                      type="text"
+                      id="income-source"
+                      class="input-field"
+                    />
+                  </div>
+                  <div class="mt-2">
+                    <label for="income" class="text-sm text-black-900">Amount</label>
+                    <input
+                      type="number"
+                      id="income-source"
+                      class="input-field"
+                    />
+                  </div>
+                  <div class="mt-2">
+                    <label for="income" class="text-sm text-black-900">What percentage do you wish to spend?</label>
+                    <input
+                      type="text"
+                      id="income-source"
+                      class="input-field"
+                    />
+                  </div>
+                  <div class="container">
+                    <label for="categories" class="label">Categories</label>
+                    <select id="categories" class="input-field">
+                      <option value="">Rent</option>
+                      <option value="">Food</option>
+                      <option value="">Miscellenous</option>
+                      <option value="">Others</option>
+                    </select>
+                  </div>
+                  <button class="button mt-2">Save</button>
+            </form>
+        </div>
+      </section>
+      <section id="budget" class="hidden">
+        <div class="section-input">
+            <div class="section-header">
+                <h4>Add Budget</h4>
+                <p class="add-more">Add more</p>
+            </div>
+            
+            <form action="">
+                <div class="mt-2">
+                    <label for="" class="text-sm text-black-900">Amount<img src="images/info.svg" class="info-img"></label>
+                    <input
+                      type="text"
+                      id="income-source"
+                      class="input-field"
+                    />
+                  </div>
+                 
+                  <div class="mt-2">
+                    <label for="income" class="text-sm text-black-900">Savings <img src="images/info.svg" class="info-img"></label>
+                    <input
+                      type="text"
+                      id="income-source"
+                      class="input-field"
+                    />
+                  </div>
+                  <button class="button mt-2">Save</button>
+            </form>
+        </div>
+      </section>
+  </div>
+  <script src="index.js"></script>
+</body>
 </html>
