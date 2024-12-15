@@ -88,7 +88,6 @@ section{
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  /* background-color: #2E54D1; */
   border-radius: 8px;
   margin: 1rem;
 }
@@ -128,7 +127,7 @@ section{
 
 /* Spending list styles */
 .spending-list {
-  margin: 1rem 2rem;
+  margin: 3rem 0.5rem;
   padding: 1rem;
   background-color: #fff;
   border-radius: 8px;
@@ -165,7 +164,26 @@ section{
 .spending-table tr:hover {
   background-color: #f1f1f1;
 }
-
+.containerStyles{
+  height: 12px;
+  width: 70%;
+  background-color: #e0e0de;
+  border-radius: 31px;
+  margin: 3px 0
+}
+.fillerStyles{
+  height: 100%;
+  width: 20%;
+  background-color: rgb(255, 187, 0);
+  border-radius: 31px;
+  text-align: right;
+  transition: width 0.5s ease-in-out
+}
+.labelStyles{
+  padding: 5;
+  color: white;
+  font-weight: bold;
+}
 .section-input{
     width: 60%;
     margin-top: 148px;
@@ -242,7 +260,6 @@ section{
   }
   .add-more{
     font-size: 13px;
-    text-decoration: underline;
     color: #f66f00;
     font-weight: 100;
   }
@@ -252,6 +269,20 @@ section{
     margin-left: 4px;
   }
 
+  .amount+.test {
+    display: none;
+  }
 
+  .amount:hover+.test {
+    display: block;
+    color: #f66f00;
+    font-size: 0.78rem;
+}
+
+.text-underline{
+  color: #f66f00;
+  text-decoration: underline;
+  cursor: pointer;
+}
   
  
