@@ -49,15 +49,6 @@
             </div>
           </div></td>
         </tr>
-        <tr>
-          <td>Fuel</td>
-          <td>Utilities</td>
-          <td><div class="containerStyles">
-            <div class="fillerStyles">
-              <span class="labelStyles"></span>
-            </div>
-          </div></td>
-        </tr>
       </tbody>
     </table>
   </div>
@@ -71,7 +62,7 @@
             <label for="income" class="text-sm text-black-900">Income source</label>
             <input
               type="text"
-              id="income-source"
+              id="source"
               class="input-field"
             />
           </div>
@@ -79,21 +70,21 @@
           <div class="mt-2">
             <label for="amount" class="text-sm text-black-900">Amount</label>
             <input
-              type="text"
+              type="number"
               id="amount"
               class="input-field"
             />
           </div>
-          <button class="button mt-2">Save</button>
+          <button class="button mt-2" id="income-button">Save</button>
     </form>
         </div>
-        <p class="income-total text-sm">Your income total is: 0</p>
+        <p class="income-total text-sm">Your income total is: </p>
       </section>
       <section id="expenses" class="hidden">
         <div class="section-input">
             <div class="section-header">
                 <h4>Add Expenses</h4>
-                <p class="add-more">Your total income is:0</p>
+                <p class="add-more">Your total income is:</p>
             </div>
             
             <form action="">
@@ -101,7 +92,7 @@
                     <label for="" class="text-sm text-black-900">Expense Name</label>
                     <input
                       type="text"
-                      id="income-source"
+                      id="expense-name"
                       class="input-field"
                     />
                   </div>
@@ -110,7 +101,7 @@
                     <div class="test"> *Ensure not to exceed your total income </div>
                     <input
                       type="number"
-                      id="income-source"
+                      id="expense-amount"
                       class="input-field"
                     />
                   </div>
@@ -119,20 +110,20 @@
                     <div class="test"> *what percentage out of income do you wish to spend for this </div>
                     <input
                       type="text"
-                      id="income-source"
+                      id="expense-percentage"
                       class="input-field"
                     />
                   </div>
                   <div class="container">
                     <label for="categories" class="label">Categories</label>
                     <select id="categories" class="input-field">
-                      <option value="">Rent</option>
-                      <option value="">Food</option>
-                      <option value="">Miscellenous</option>
-                      <option value="">Others</option>
+                      <option value="Rent">Rent</option>
+                      <option value="Food">Food</option>
+                      <option value="Miscellenous">Miscellenous</option>
+                      <option value="Others">Others</option>
                     </select>
                   </div>
-                  <button class="button mt-2">Save</button>
+                  <button class="button mt-2" id="expense-btn">Save</button>
             </form>
         </div>
         <div class="spending-list">
@@ -140,31 +131,19 @@
           <table class="spending-table">
             <thead>
               <tr>
-                <th>Name</th>
+                <th >Name</th>
                 <th>Amount</th>
-                <th>Percentage</th>
                 <th>Categories</th>
+                <th>Percentage</th>
+                <th>Actual percentage</th>
+                
                 <th></th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Rice</td>
-                <td>100</td>
-                <td>30%</td>
-                <td>Groceries</td>
-                <td class="text-underline">Delete</td>
-                <td class="text-underline">Edit</td>
-              </tr>
-              <tr>
-                <td>Rice</td>
-                <td>100</td>
-                <td>30%</td>
-                <td>Groceries</td>
-                <td class="text-underline">Delete</td>
-                <td class="text-underline">Edit</td>
-              </tr>
+           
+
             </tbody>
           </table>
         </div>
@@ -183,7 +162,7 @@
                     <div class="test"> test </div>
                     <input
                       type="text"
-                      id="income-source"
+                      id="source"
                       class="input-field"
                     />
                   </div>
@@ -191,8 +170,8 @@
                   <div class="mt-2">
                     <label for="income" class="text-sm text-black-900">Savings <img src="images/info.svg" class="info-img"></label>
                     <input
-                      type="text"
-                      id="income-source"
+                      type="number"
+                      id="amount"
                       class="input-field"
                     />
                   </div>
