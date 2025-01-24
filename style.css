@@ -27,10 +27,21 @@ header{
     justify-content: space-between;
     font-weight: 100;
 }
-
+.menu-list a {
+  text-decoration: none;
+  color: black;
+}
 .line{
    border-bottom: 1px solid rgb(218, 214, 214); 
     
+}
+.hero-how a, .cta-button a {
+  text-decoration: none;
+  color: white;
+}
+.hero-get a {
+  text-decoration: none;
+  color: black;
 }
 
 .hero-section{
@@ -58,6 +69,7 @@ header{
   line-height: 30px;
   font-weight: 100;
 }
+
 
 
 .hero-buttons{
@@ -93,7 +105,7 @@ header{
     display: flex;
     justify-content: space-between;
 }
-.about-me{
+#about-me{
     margin-top: 150px;
     width: 40%;
     font-size: 14.5px;
@@ -117,7 +129,7 @@ header{
     width: 25%;
     margin-right: 150px;
 }
-.features-section{
+#features-section{
   background-color: #fffaf4;
 }
 .feature{

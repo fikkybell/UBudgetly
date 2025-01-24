@@ -55,7 +55,7 @@
    width: 100%;
     transition: background 0.3s;
   }
-  
+
   .sidebar a:hover, .sidebar a.active {
     background-color: #eee5dc;
     /* border-left: 5px solid #cc9e74; */
@@ -110,11 +110,14 @@ section{
 
 .expense-chart,
 .budget.chart {
+  display: flex;
+  justify-content: center;   /* centers horizontally */
+  align-items: center;
   flex: 1;
   padding: 1rem;
   background-color: #fff;
   border-radius: 8px;
-  height: 200px;
+  height: 280px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
   font-weight: bold;
