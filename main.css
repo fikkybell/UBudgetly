@@ -98,6 +98,11 @@ section{
   font-weight: 600;
 }
 
+.arrow{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 /* Container styles */
 .container-list {

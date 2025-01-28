@@ -305,6 +305,30 @@ function renderCharts() {
     });
   }
 }
+//show month
+const month = document.querySelector('.arrow')
+const now = moment();
+now.locale('en');
+
+const months = [];
+for (let i = 0; i < 12; i++) {
+  months.push(moment().month(i).format("MMMM"));
+ 
+}
+console.log(months)
+months.map((item)=>{
+  console.log(item)
+  month.innerHTML = 
+`<select>
+<option>${item}</option>
+</select>`
+})
+
+console.log(month)
+function showMonth(){
+  
+
+}
 
 
 
