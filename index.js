@@ -179,7 +179,7 @@ function getSpendingHistory() {
   const tableBody = document.querySelector('#home .spending-table tbody');
 
   tableBody.innerHTML = ''; 
-  console.log(history);
+
 
   history.forEach((entry) => {
     const actualPer = entry.actualPer
@@ -315,16 +315,18 @@ for (let i = 0; i < 12; i++) {
   months.push(moment().month(i).format("MMMM"));
  
 }
-console.log(months)
-months.map((item)=>{
-  console.log(item)
-  month.innerHTML = 
-`<select>
-<option>${item}</option>
-</select>`
-})
+const select = document.createElement("select");
+select.classList.add = ('.button')
 
-console.log(month)
+months.forEach((item) => {
+  const option = document.createElement("option");
+  option.textContent = item; 
+  option.value = item.toLowerCase(); 
+  select.appendChild(option); 
+});
+ month.appendChild(select)
+
+
 function showMonth(){
   
 
