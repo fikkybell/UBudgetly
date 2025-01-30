@@ -40,13 +40,34 @@ incomeButton.addEventListener('click', (e) => {
     alert('Please enter a valid income source and amount.');
     return;
   }
-total += amount;
-localStorage.setItem('income', JSON.stringify(total));
-totalIncome.textContent = `Your income total is: ${total}`;
-incomeTotal.textContent = `Your income total is: ${total}`;
+  const currentMonth = document.querySelector('#month-dropdown')?.value || moment().format('MMMM');
+
+  let incomeHistory = JSON.parse(localStorage.getItem('incomeHistory')) || {};
+
+
+  incomeHistory[currentMonth] = (incomeHistory[currentMonth] || 0) + amount;
+
+  localStorage.setItem('incomeHistory', JSON.stringify(incomeHistory));
+
+
+  updateDisplayedIncome(currentMonth);
+  renderCharts(currentMonth);
+  getSpendingHistory(currentMonth);
+
   incomeAmount.value = '';
   incomeSource.value = '';
 });
+
+
+function updateDisplayedIncome(selectedMonth) {
+  let incomeHistory = JSON.parse(localStorage.getItem('incomeHistory')) || {};
+  console.log(incomeHistory)
+  let totalIncomeValue = incomeHistory[selectedMonth] || 0;
+
+  incomeTotal.textContent = `Your income total is: ${totalIncomeValue}`;
+  totalIncome.textContent = `Your income total is: ${totalIncomeValue}`;
+}
+
 
 
 
@@ -64,49 +85,55 @@ totalIncome.textContent = `Your income total is: ${total}`
 expenseBtn.addEventListener('click', (e) => {
   e.preventDefault();
 
-  let totalIncomeValue = parseFloat(localStorage.getItem('income')) || 0;
+  const selectedMonthElement = document.querySelector('#month-dropdown');
+  const currentMonth = selectedMonthElement ? selectedMonthElement.value : moment().format('MMMM');
 
-  
+
+  let incomeHistory = JSON.parse(localStorage.getItem('incomeHistory')) || {};
+  let totalIncomeValue = incomeHistory[selectedMonth] || 0;
+
   const expenseAmountValue = parseFloat(expenseAmount.value);
+
   if (isNaN(expenseAmountValue) || expenseAmountValue <= 0) {
     alert("Please enter a valid expense amount.");
     return;
   }
-
- 
+console.log('income',totalIncomeValue)
+console.log('exp', expenseAmountValue)
   const updatedIncome = totalIncomeValue - expenseAmountValue;
   if (updatedIncome < 0) {
     alert("The expense exceeds your total income. Operation not allowed.");
     return;  
   }
 
-  
   const actualPercentage = (expenseAmountValue / totalIncomeValue) * 100;
+  
+
   const expenseDataItem = {
     id: `expense-${Date.now()}`,
-    amount: expenseAmountValue, 
+    amount: expenseAmountValue,
     name: expenseName.value,
     categories: expenseCategories.value,
     actualPer: actualPercentage.toFixed(1),
     percentage: expensePer.value,
+    month: currentMonth,
   };
 
+  let history = JSON.parse(localStorage.getItem('expenseHistory')) || {};
+  if (!history[currentMonth]) {
+    history[currentMonth] = [];
+  }
 
-  const history = JSON.parse(localStorage.getItem('expense')) || [];
-  history.push(expenseDataItem);
-  localStorage.setItem('expense', JSON.stringify(history));
-
-  
-  localStorage.setItem('income', JSON.stringify(updatedIncome));
-
-
-  incomeTotal.textContent = `Your income total is: ${updatedIncome}`;
-  totalIncome.textContent = `Your income total is: ${updatedIncome}`;
+  history[currentMonth].push(expenseDataItem);
+  localStorage.setItem('expenseHistory', JSON.stringify(history));
+  localStorage.setItem('incomeHistory', JSON.stringify(updatedIncome));
 
 
-  updateExpenseSection();
-  renderCharts();
-  getSpendingHistory() 
+  updateDisplayedIncome(currentMonth);
+  updateExpenseSection(currentMonth);
+  renderCharts(currentMonth);
+  getSpendingHistory(currentMonth);
+
   expenseAmount.value = '';
   expenseName.value = '';
   expenseCategories.value = '';
@@ -114,16 +141,17 @@ expenseBtn.addEventListener('click', (e) => {
 });
 
 
-function updateExpenseSection() {
- 
-  const history = JSON.parse(localStorage.getItem('expense')) || [];
 
-  let currentIncome = parseFloat(localStorage.getItem('income')) || 0;
+
+function updateExpenseSection(selectedMonth) {
+  const history = JSON.parse(localStorage.getItem('expenseHistory')) || {};
+  console.log('history',history)
+  const monthExpenses = history[selectedMonth] || [];
 
   const tableBody = document.querySelector('#expenses .spending-table tbody');
   tableBody.innerHTML = '';
 
-  history.forEach((entry) => {
+  monthExpenses.forEach((entry) => {
     const row = document.createElement('tr');
     row.innerHTML = `
       <td class="history-name">${entry.name}</td>
@@ -137,13 +165,11 @@ function updateExpenseSection() {
 
     const deleteCell = row.querySelector('.delete');
     deleteCell.addEventListener('click', () => {
-      handleDelete(entry.id);
+      handleDelete(entry.id, selectedMonth);
     });
   });
-
-  totalIncome.textContent = `Your income total is: ${currentIncome}`;
-  incomeTotal.textContent = `Your income total is: ${currentIncome}`;
 }
+
 
 //Handle Delete
 function handleDelete(entryId) {
@@ -166,10 +192,15 @@ function handleDelete(entryId) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  updateExpenseSection() 
-  getSpendingHistory() 
-  renderCharts();
+  const currentMonth = moment().format('MMMM'); 
+  showMonth();  
+  updateDisplayedIncome(currentMonth); 
+  updateExpenseSection(currentMonth);
+  renderCharts(currentMonth);
+  getSpendingHistory(currentMonth);
 });
+
+
 
 
 
@@ -177,7 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function getSpendingHistory() {
   const history = JSON.parse(localStorage.getItem('expense')) || [];
   const tableBody = document.querySelector('#home .spending-table tbody');
-
+  
   tableBody.innerHTML = ''; 
 
 
@@ -214,33 +245,27 @@ function getSpendingHistory() {
   });
 }
 
-function renderCharts() {
-  
-  const history = JSON.parse(localStorage.getItem('expense')) || [];
-  const income = parseFloat(localStorage.getItem('income')) || 0;
-  
+function renderCharts(selectedMonth) {
+  const history = JSON.parse(localStorage.getItem('expenseHistory')) || {};
+  const incomeHistory = JSON.parse(localStorage.getItem('incomeHistory')) || {};
+  const income = incomeHistory[selectedMonth] || 0;
+  const monthExpenses = history[selectedMonth] || [];
 
-  const expenseData = history.map((entry) => entry.amount);
-  const expenseLabels = history.map((entry) => entry.name);
+  const expenseData = monthExpenses.map((entry) => entry.amount);
+  const expenseLabels = monthExpenses.map((entry) => entry.name);
   const totalExpenses = expenseData.reduce((sum, val) => sum + val, 0);
-  
 
   const expenseChartContainer = document.querySelector('.expense-chart');
   const budgetChartContainer = document.querySelector('.budget.chart');
 
- 
   expenseChartContainer.innerHTML = '';
-  
   if (expenseData.length === 0 || totalExpenses === 0) {
-   
     expenseChartContainer.innerHTML = '<p class="no-data-class">No Expense Data</p>';
   } else {
-    //  a new canvas for the expense chart
     const expenseCanvas = document.createElement('canvas');
     expenseCanvas.id = 'expenseChart';
     expenseChartContainer.appendChild(expenseCanvas);
 
-    //the Expense Chart
     const expenseCtx = expenseCanvas.getContext('2d');
     new Chart(expenseCtx, {
       type: 'doughnut',
@@ -268,19 +293,14 @@ function renderCharts() {
     });
   }
 
-
   budgetChartContainer.innerHTML = '';
-  
   if (income === 0 && totalExpenses === 0) {
-   
     budgetChartContainer.innerHTML = '<p class="no-data-class">No data for Income and Expenses</p>';
   } else {
-    // canvas for the budget chart
     const budgetCanvas = document.createElement('canvas');
     budgetCanvas.id = 'budgetChart';
     budgetChartContainer.appendChild(budgetCanvas);
 
-    // Budget Chart
     const budgetCtx = budgetCanvas.getContext('2d');
     new Chart(budgetCtx, {
       type: 'doughnut',
@@ -305,32 +325,45 @@ function renderCharts() {
     });
   }
 }
-//show month
-const month = document.querySelector('.arrow')
-const now = moment();
-now.locale('en');
 
-const months = [];
-for (let i = 0; i < 12; i++) {
-  months.push(moment().month(i).format("MMMM"));
+
+
+
+
+ function showMonth() {
+  const monthSelector = document.querySelector(".arrow");
+
  
+  if (!document.querySelector("#month-dropdown")) {
+    const select = document.createElement("select");
+    select.id = "month-dropdown";
+    select.classList.add("button");
+
+    const months = [];
+    for (let i = 0; i < 12; i++) {
+      months.push(moment().month(i).format("MMMM"));
+    }
+
+    months.forEach((item) => {
+      const option = document.createElement("option");
+      option.textContent = item;
+      option.value = item;
+      select.appendChild(option);
+    });
+
+    monthSelector.appendChild(select);
+
+ 
+    select.addEventListener("change", () => {
+      const selectedMonth = select.value;
+      updateDisplayedIncome(selectedMonth);
+      updateExpenseSection(selectedMonth);
+      renderCharts(selectedMonth);
+      getSpendingHistory(selectedMonth);
+    });
+  }
 }
-const select = document.createElement("select");
-select.classList.add = ('.button')
 
-months.forEach((item) => {
-  const option = document.createElement("option");
-  option.textContent = item; 
-  option.value = item.toLowerCase(); 
-  select.appendChild(option); 
-});
- month.appendChild(select)
-
-
-function showMonth(){
-  
-
-}
 
 
 
