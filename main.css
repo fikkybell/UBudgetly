@@ -40,6 +40,7 @@
   
   .sidebar li {
     margin: 20px 0;
+    list-style: none;
     font-size: 14px;
     
     
@@ -85,6 +86,8 @@ section{
 /* Header styles */
 .home-header {
   display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
@@ -96,6 +99,53 @@ section{
   margin: 0;
   font-size: 1.1rem;
   font-weight: 600;
+}
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  position: fixed;
+   top: 30px;
+   left: 340px;
+}
+.hamburger span {
+  background: white;
+  height: 2px;
+  width: 20px;
+  margin: 4px;
+  display: block;
+}
+.mobile-menu {
+  display: none;
+  flex-direction: column;
+  position: fixed;
+ 
+  width: 100%;
+  
+  background: rgb(238, 233, 233);
+  padding: 40px;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(-100%);
+  transition: transform 0.3s ease-in-out;
+}
+.mobile-menu ul{
+  list-style-type: none;
+  
+}
+.mobile-menu ul a {
+  text-decoration: none;
+}
+.mobile-menu.open {
+  display: flex;
+  transform: translateY(0);
+}
+.close-menu {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 24px;
+  cursor: pointer;
 }
 
 .arrow{
@@ -294,3 +344,28 @@ section{
 }
   
  
+
+@media (max-width: 768px) {
+  .sidebar{
+      display: none;
+  }
+  .hamburger {
+      display: flex;
+  }
+.content {
+margin-left: 20px;
+}
+.section-input{
+  width: 95%;
+
+ 
+}
+}
+
+@media screen and (max-width: 480px) {
+  .container-list {
+    display: block;
+
+  }
+ 
+}

@@ -7,15 +7,30 @@
     <title>Ubudgetly</title>
 </head>
 <body>
-   <header class="header-home">
+  <header class="header-home">
     <div class="menu">
-        <img src="images/ubudgetly.png" alt="">
-        <ul class="menu-list">
-        <li><a href="#about-me">about</a></li>
-        <li><a href="#features-section">work</a></li>
-        <li><a href="#line">contact</a></li></ul>       
+        <img src="images/ubudgetly.png" alt="" class="logo">
+        <nav>
+            <ul class="menu-list">
+                <li><a href="#about-me">about</a></li>
+                <li><a href="#features-section">work</a></li>
+                <li><a href="#line">contact</a></li>
+            </ul>
+        </nav>
+        <div class="hamburger" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
     </div>
-  
+    <div class="mobile-menu" id="mobileMenu">
+      <span class="close-menu" onclick="toggleMenu()">&times;</span>
+      <ul>
+          <li><a href="#about-me" onclick="toggleMenu()">about</a></li>
+          <li><a href="#features-section" onclick="toggleMenu()">work</a></li>
+          <li><a href="#line" onclick="toggleMenu()">contact</a></li>
+      </ul>
+  </div>
    </header>
    <!-- main view -->
    <main>
@@ -86,7 +101,7 @@
             finances and live stress-free.</p>
             <button class="cta-button"><a href="main.html">Get started</a></button>
         </div>
-        <img src="images/money-removebg-preview.png" alt="">
+        <img src="images/money-removebg-preview.png" class="money-image" alt="">
        </section>
    </main>
    <!-- footer -->
@@ -123,5 +138,11 @@
        
       </div>
    </footer>
+   <script>
+    function toggleMenu() {
+        const mobileMenu = document.getElementById('mobileMenu');
+        mobileMenu.classList.toggle('open');
+    }
+</script>
 </body>
 </html>

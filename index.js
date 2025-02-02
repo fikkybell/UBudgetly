@@ -23,14 +23,19 @@ links.forEach(link => {
 });
 
 // Income 
-const income = parseFloat(localStorage.getItem('income')) || 0;
+
 const incomeSource = document.getElementById('source');
 const incomeAmount = document.getElementById('amount');
 const incomeButton = document.getElementById('income-button');
 const incomeTotal = document.querySelector('.income-total');
 
+const selectedMonthElement = document.querySelector('#month-dropdown');
+const currentMonth = selectedMonthElement ? selectedMonthElement.value : moment().format('MMMM');
+console.log(currentMonth)
 
-let total = JSON.parse(localStorage.getItem('income')) || 0;
+let incomeHistory = JSON.parse(localStorage.getItem('incomeHistory')) || {};
+let total = incomeHistory[currentMonth] || 0;
+
 incomeTotal.textContent = `Your income total is: ${total}`;
 incomeButton.addEventListener('click', (e) => {
   e.preventDefault();
@@ -88,26 +93,22 @@ expenseBtn.addEventListener('click', (e) => {
   const selectedMonthElement = document.querySelector('#month-dropdown');
   const currentMonth = selectedMonthElement ? selectedMonthElement.value : moment().format('MMMM');
 
-
   let incomeHistory = JSON.parse(localStorage.getItem('incomeHistory')) || {};
-  let totalIncomeValue = incomeHistory[selectedMonth] || 0;
+  let totalIncomeValue = incomeHistory[currentMonth] || 0;
 
   const expenseAmountValue = parseFloat(expenseAmount.value);
-
   if (isNaN(expenseAmountValue) || expenseAmountValue <= 0) {
     alert("Please enter a valid expense amount.");
     return;
   }
-console.log('income',totalIncomeValue)
-console.log('exp', expenseAmountValue)
-  const updatedIncome = totalIncomeValue - expenseAmountValue;
-  if (updatedIncome < 0) {
+
+  if (expenseAmountValue > totalIncomeValue) {
     alert("The expense exceeds your total income. Operation not allowed.");
-    return;  
+    return;
   }
 
+  const updatedIncome = totalIncomeValue - expenseAmountValue;
   const actualPercentage = (expenseAmountValue / totalIncomeValue) * 100;
-  
 
   const expenseDataItem = {
     id: `expense-${Date.now()}`,
@@ -119,15 +120,16 @@ console.log('exp', expenseAmountValue)
     month: currentMonth,
   };
 
-  let history = JSON.parse(localStorage.getItem('expenseHistory')) || {};
-  if (!history[currentMonth]) {
-    history[currentMonth] = [];
+  let expenseHistory = JSON.parse(localStorage.getItem('expenseHistory')) || {};
+  if (!expenseHistory[currentMonth]) {
+    expenseHistory[currentMonth] = [];
   }
+  expenseHistory[currentMonth].push(expenseDataItem);
+  localStorage.setItem('expenseHistory', JSON.stringify(expenseHistory));
 
-  history[currentMonth].push(expenseDataItem);
-  localStorage.setItem('expenseHistory', JSON.stringify(history));
-  localStorage.setItem('incomeHistory', JSON.stringify(updatedIncome));
 
+  incomeHistory[currentMonth] = updatedIncome;
+  localStorage.setItem('incomeHistory', JSON.stringify(incomeHistory));
 
   updateDisplayedIncome(currentMonth);
   updateExpenseSection(currentMonth);
@@ -139,6 +141,7 @@ console.log('exp', expenseAmountValue)
   expenseCategories.value = '';
   expensePer.value = '';
 });
+
 
 
 
@@ -178,7 +181,7 @@ function handleDelete(entryId) {
   const entryToDelete = history.find((item) => item.id === entryId);
   if (!entryToDelete) return; 
 
-  let currentIncome = parseFloat(localStorage.getItem('income')) || 0;
+  let currentIncome = parseFloat(localStorage.getItem('incomeHistory')) || 0;
   currentIncome += parseFloat(entryToDelete.amount);
   localStorage.setItem('income', JSON.stringify(currentIncome));
 
@@ -206,16 +209,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
 //Home spending history 
 function getSpendingHistory() {
-  const history = JSON.parse(localStorage.getItem('expense')) || [];
+  const history = JSON.parse(localStorage.getItem('expenseHistory')) || [];
+  const selectedMonthElement = document.querySelector('#month-dropdown');
+  const currentMonth = selectedMonthElement ? selectedMonthElement.value : moment().format('MMMM');
   const tableBody = document.querySelector('#home .spending-table tbody');
-  
+  const monthExpenses = history[currentMonth] || [];
   tableBody.innerHTML = ''; 
+console.log(history)
 
-
-  history.forEach((entry) => {
+  monthExpenses.forEach((entry) => {
     const actualPer = entry.actualPer
     const userDefinedPer = parseFloat(entry.percentage); 
-
+    console.log(actualPer,userDefinedPer)
     let backgroundColor;
     if (actualPer  > userDefinedPer) {
       backgroundColor = 'red'; 

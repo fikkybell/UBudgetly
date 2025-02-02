@@ -9,15 +9,28 @@
 <body>
     <header class="header-main">
         <a href="/"><img class="header-img" src="images/ubudgetlyW.png" alt=""></a>
-        
+        <div class="hamburger" onclick="toggleMenu()">
+          <span></span>
+          <span></span>
+          <span></span>
+      </div>
     </header>
-  <div class="sidebar">
-    <ul>
+  <div class="">
+    <ul class="sidebar">
       <li><a href="#home" class="nav-link active" data-nav="home"><img class="img-nav" src="images/home.svg" alt="">Home</a></li>
       <li><a href="#income" class="nav-link" data-nav="income"><img class="img-nav" src="images/income.svg" alt="">Income</a></li>
       <li><a href="#expenses" class="nav-link" data-nav="services"><img class="img-nav" src="images/budget.svg" alt="">Expenses</a></li>
       <li class="help-nav"><a href="index.html"><img class="img-nav" src="images/help.svg" alt="">Help</a></li>
     </ul>
+    
+  <div class="mobile-menu" id="mobileMenu">
+    <span class="close-menu" onclick="toggleMenu()">&times;</span>
+    <ul>
+        <li><a href="#home" class="nav-link active" data-nav="home"><img class="img-nav" src="images/home.svg" alt="" onclick="toggleMenu()">Home</a></li>
+        <li><a href="#income" class="nav-link" data-nav="income"><img class="img-nav" src="images/income.svg" alt="" onclick="toggleMenu()">Income</a</li>
+        <li><a href="#expenses" class="nav-link" data-nav="services"><img class="img-nav" src="images/budget.svg" alt="" onclick="toggleMenu()">Expenses</a></li>
+    </ul>
+</div>
   </div>
   <div class="content">
     <section id="home">
@@ -132,8 +145,8 @@
                 <th >Name</th>
                 <th>Amount</th>
                 <th>Categories</th>
-                <th>Desired Percentage</th>
-                <th>Actual percentage</th>
+                <th>Desired %</th>
+                <th>Actual %</th>
                 <th></th>
               </tr>
             </thead>
@@ -148,7 +161,12 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
 
   <script src="index.js"></script>
-
+  <script>
+    function toggleMenu() {
+        const mobileMenu = document.getElementById('mobileMenu');
+        mobileMenu.classList.toggle('open');
+    }
+</script>
 
 </body>
 </html>
