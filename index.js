@@ -196,7 +196,7 @@ function handleDelete(entryId) {
 
 document.addEventListener('DOMContentLoaded', () => {
   const currentMonth = moment().format('MMMM'); 
-  showMonth();  
+  showMonth(currentMonth);  
   updateDisplayedIncome(currentMonth); 
   updateExpenseSection(currentMonth);
   renderCharts(currentMonth);
@@ -335,30 +335,29 @@ function renderCharts(selectedMonth) {
 
 
 
- function showMonth() {
+function showMonth(defaultMonth) {
   const monthSelector = document.querySelector(".arrow");
 
- 
+
   if (!document.querySelector("#month-dropdown")) {
     const select = document.createElement("select");
     select.id = "month-dropdown";
     select.classList.add("button");
 
-    const months = [];
+   
     for (let i = 0; i < 12; i++) {
-      months.push(moment().month(i).format("MMMM"));
+      const monthName = moment().month(i).format("MMMM");
+      const option = document.createElement("option");
+      option.textContent = monthName;
+      option.value = monthName;
+      select.appendChild(option);
     }
 
-    months.forEach((item) => {
-      const option = document.createElement("option");
-      option.textContent = item;
-      option.value = item;
-      select.appendChild(option);
-    });
-
+   
     monthSelector.appendChild(select);
+    select.value = defaultMonth || moment().format("MMMM");
 
- 
+   
     select.addEventListener("change", () => {
       const selectedMonth = select.value;
       updateDisplayedIncome(selectedMonth);
@@ -368,6 +367,7 @@ function renderCharts(selectedMonth) {
     });
   }
 }
+
 
 
 
