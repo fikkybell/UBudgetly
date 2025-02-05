@@ -30,13 +30,18 @@ const incomeButton = document.getElementById('income-button');
 const incomeTotal = document.querySelector('.income-total');
 
 const selectedMonthElement = document.querySelector('#month-dropdown');
+console.log(selectedMonthElement)
 const currentMonth = selectedMonthElement ? selectedMonthElement.value : moment().format('MMMM');
-console.log(currentMonth)
+let expenseHistory = JSON.parse(localStorage.getItem('expenseHistory')) || {};
+console.log(expenseHistory[currentMonth])
+const monthSelector = document.querySelector(".arrow");
+
 
 let incomeHistory = JSON.parse(localStorage.getItem('incomeHistory')) || {};
 let total = incomeHistory[currentMonth] || 0;
 
-incomeTotal.textContent = `Your income total is: ${total}`;
+console.log(incomeHistory)
+// incomeTotal.textContent = `Your ${currentMonth} income total is: ${total}`;
 incomeButton.addEventListener('click', (e) => {
   e.preventDefault();
   const amount = parseFloat(incomeAmount.value);
@@ -46,14 +51,13 @@ incomeButton.addEventListener('click', (e) => {
     return;
   }
   const currentMonth = document.querySelector('#month-dropdown')?.value || moment().format('MMMM');
-
+  
   let incomeHistory = JSON.parse(localStorage.getItem('incomeHistory')) || {};
 
 
   incomeHistory[currentMonth] = (incomeHistory[currentMonth] || 0) + amount;
 
   localStorage.setItem('incomeHistory', JSON.stringify(incomeHistory));
-
 
   updateDisplayedIncome(currentMonth);
   renderCharts(currentMonth);
@@ -66,7 +70,7 @@ incomeButton.addEventListener('click', (e) => {
 
 function updateDisplayedIncome(selectedMonth) {
   let incomeHistory = JSON.parse(localStorage.getItem('incomeHistory')) || {};
-  console.log(incomeHistory)
+
   let totalIncomeValue = incomeHistory[selectedMonth] || 0;
 
   incomeTotal.textContent = `Your income total is: ${totalIncomeValue}`;
@@ -83,7 +87,7 @@ const expensePer = document.getElementById('expense-percentage')
 const expenseCategories = document.getElementById('categories')
 const totalIncome = document.querySelector('.add-more')
 const expenseBtn = document.getElementById('expense-btn')
-totalIncome.textContent = `Your income total is: ${total}`
+
 
 
 
@@ -94,6 +98,7 @@ expenseBtn.addEventListener('click', (e) => {
   const currentMonth = selectedMonthElement ? selectedMonthElement.value : moment().format('MMMM');
 
   let incomeHistory = JSON.parse(localStorage.getItem('incomeHistory')) || {};
+
   let totalIncomeValue = incomeHistory[currentMonth] || 0;
 
   const expenseAmountValue = parseFloat(expenseAmount.value);
@@ -144,58 +149,83 @@ expenseBtn.addEventListener('click', (e) => {
 
 
 
-
+// update expense table, display expense table
 
 function updateExpenseSection(selectedMonth) {
-  const history = JSON.parse(localStorage.getItem('expenseHistory')) || {};
-  console.log('history',history)
-  const monthExpenses = history[selectedMonth] || [];
+ 
+  const expenseHistoryData = JSON.parse(localStorage.getItem('expenseHistory')) || {};
+  const monthExpenses = expenseHistoryData[selectedMonth] || [];
 
+  
   const tableBody = document.querySelector('#expenses .spending-table tbody');
   tableBody.innerHTML = '';
+  
+
+  const currentMonth = moment().format("MMMM");
+  const isEditable = (selectedMonth === currentMonth);
+
 
   monthExpenses.forEach((entry) => {
+
+    const deleteCellContent = isEditable 
+      ? `<td class="text-underline delete" data-id="${entry.id}">Delete</td>` 
+      : `<td></td>`;
+    
     const row = document.createElement('tr');
     row.innerHTML = `
       <td class="history-name">${entry.name}</td>
       <td class="history-amount">${entry.amount}</td>
       <td class="history-category">${entry.categories}</td>
-      <td class="history-percentage">${entry.percentage}%</td> 
-      <td class="history-category">${entry.actualPer}%</td>  
-      <td class="text-underline delete" data-id="${entry.id}">Delete</td>
+      <td class="history-percentage">${entry.percentage}%</td>
+      <td class="history-category">${entry.actualPer}%</td>
+      ${deleteCellContent}
     `;
     tableBody.appendChild(row);
 
-    const deleteCell = row.querySelector('.delete');
-    deleteCell.addEventListener('click', () => {
-      handleDelete(entry.id, selectedMonth);
-    });
+    if (isEditable) {
+      const deleteCell = row.querySelector('.delete');
+      if (deleteCell) {
+        deleteCell.addEventListener('click', () => {
+          handleDelete(entry.id, selectedMonth);
+        });
+      }
+    }
   });
 }
 
 
-//Handle Delete
-function handleDelete(entryId) {
-  let history = JSON.parse(localStorage.getItem('expense')) || [];
 
-  const entryToDelete = history.find((item) => item.id === entryId);
+//Handle Delete
+function handleDelete(entryId, selectedMonth) {
+
+  let expenseHistory = JSON.parse(localStorage.getItem('expenseHistory')) || {};
+
+  let monthExpenses = expenseHistory[selectedMonth] || [];
+  
+  const entryToDelete = monthExpenses.find((item) => item.id === entryId);
   if (!entryToDelete) return; 
 
-  let currentIncome = parseFloat(localStorage.getItem('incomeHistory')) || 0;
+  let incomeHistory = JSON.parse(localStorage.getItem('incomeHistory')) || {};
+  let currentIncome = incomeHistory[selectedMonth] || 0;
+ 
   currentIncome += parseFloat(entryToDelete.amount);
-  localStorage.setItem('income', JSON.stringify(currentIncome));
-
-  history = history.filter((item) => item.id !== entryId);
-  localStorage.setItem('expense', JSON.stringify(history));
+  incomeHistory[selectedMonth] = currentIncome;
+  localStorage.setItem('incomeHistory', JSON.stringify(incomeHistory));
 
  
-  updateExpenseSection();
-  renderCharts(); 
-  getSpendingHistory() 
+  monthExpenses = monthExpenses.filter((item) => item.id !== entryId);
+  expenseHistory[selectedMonth] = monthExpenses;
+  localStorage.setItem('expenseHistory', JSON.stringify(expenseHistory));
+
+  updateExpenseSection(selectedMonth);
+  renderCharts(selectedMonth);
+  getSpendingHistory(selectedMonth);
 }
+
 
 document.addEventListener('DOMContentLoaded', () => {
   const currentMonth = moment().format('MMMM'); 
+  
   showMonth(currentMonth);  
   updateDisplayedIncome(currentMonth); 
   updateExpenseSection(currentMonth);
@@ -215,12 +245,12 @@ function getSpendingHistory() {
   const tableBody = document.querySelector('#home .spending-table tbody');
   const monthExpenses = history[currentMonth] || [];
   tableBody.innerHTML = ''; 
-console.log(history)
+
 
   monthExpenses.forEach((entry) => {
     const actualPer = entry.actualPer
     const userDefinedPer = parseFloat(entry.percentage); 
-    console.log(actualPer,userDefinedPer)
+  
     let backgroundColor;
     if (actualPer  > userDefinedPer) {
       backgroundColor = 'red'; 
@@ -250,6 +280,7 @@ console.log(history)
   });
 }
 
+// show chart
 function renderCharts(selectedMonth) {
   const history = JSON.parse(localStorage.getItem('expenseHistory')) || {};
   const incomeHistory = JSON.parse(localStorage.getItem('incomeHistory')) || {};
@@ -334,10 +365,9 @@ function renderCharts(selectedMonth) {
 
 
 
-
+// show all months
 function showMonth(defaultMonth) {
   const monthSelector = document.querySelector(".arrow");
-
 
   if (!document.querySelector("#month-dropdown")) {
     const select = document.createElement("select");
@@ -357,16 +387,38 @@ function showMonth(defaultMonth) {
     monthSelector.appendChild(select);
     select.value = defaultMonth || moment().format("MMMM");
 
-   
+
+
     select.addEventListener("change", () => {
       const selectedMonth = select.value;
+    
       updateDisplayedIncome(selectedMonth);
       updateExpenseSection(selectedMonth);
       renderCharts(selectedMonth);
       getSpendingHistory(selectedMonth);
+      setEditMode(selectedMonth);
     });
   }
 }
+
+
+function setEditMode(selectedMonth) {
+  const current = moment().format("MMMM");
+  const isCurrent = selectedMonth === current;
+
+  // Income controls
+  incomeSource.disabled = !isCurrent;
+  incomeAmount.disabled = !isCurrent;
+  incomeButton.style.display = isCurrent ? "inline-block" : "none";
+
+  // Expense controls
+  expenseName.disabled = !isCurrent;
+  expenseAmount.disabled = !isCurrent;
+  expensePer.disabled = !isCurrent;
+  expenseCategories.disabled = !isCurrent;
+  expenseBtn.style.display = isCurrent ? "inline-block" : "none";
+}
+
 
 
 

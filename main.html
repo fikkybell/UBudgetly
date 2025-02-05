@@ -26,9 +26,9 @@
   <div class="mobile-menu" id="mobileMenu">
     <span class="close-menu" onclick="toggleMenu()">&times;</span>
     <ul>
-        <li><a href="#home" class="nav-link active" data-nav="home"><img class="img-nav" src="images/home.svg" alt="" onclick="toggleMenu()">Home</a></li>
-        <li><a href="#income" class="nav-link" data-nav="income"><img class="img-nav" src="images/income.svg" alt="" onclick="toggleMenu()">Income</a</li>
-        <li><a href="#expenses" class="nav-link" data-nav="services"><img class="img-nav" src="images/budget.svg" alt="" onclick="toggleMenu()">Expenses</a></li>
+        <li><a href="#home" class="nav-link active" data-nav="home" onclick="toggleMenu()">Home</a></li>
+        <li><a href="#income" class="nav-link" data-nav="income" onclick="toggleMenu()">Income</a</li>
+        <li><a href="#expenses" class="nav-link" data-nav="services" onclick="toggleMenu()">Expenses</a></li>
     </ul>
 </div>
   </div>
@@ -139,6 +139,7 @@
         </div>
         <div class="spending-list">
           <p class="text-sm">Expenses list</p>
+          <div class="table-responsive" >
           <table class="spending-table">
             <thead>
               <tr>
@@ -155,6 +156,7 @@
 
             </tbody>
           </table>
+        </div>
         </div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

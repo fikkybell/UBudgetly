@@ -11,6 +11,8 @@
     background-color: rgba(0, 0, 0, 0.933);
     height: 80px;
     position: fixed;
+    display: flex;
+    justify-content: space-between;
     width: 100%;
     top: 0;
     z-index: 99;
@@ -104,9 +106,11 @@ section{
   display: none;
   flex-direction: column;
   cursor: pointer;
-  position: fixed;
+  margin-top: 23px;
+  margin-right: 23px;
+  /* position: fixed;
    top: 30px;
-   left: 340px;
+   left: 340px; */
 }
 .hamburger span {
   background: white;
@@ -119,22 +123,38 @@ section{
   display: none;
   flex-direction: column;
   position: fixed;
- 
+  top: 70px;
   width: 100%;
-  
-  background: rgb(238, 233, 233);
+  background: rgba(238, 233, 233, 0.9);
   padding: 40px;
   align-items: center;
   justify-content: center;
-  transform: translateY(-100%);
-  transition: transform 0.3s ease-in-out;
+  animation-name: slide-in-left; 
+  animation-duration: 0.5s; 
+  animation-timing-function: ease-in-out; 
 }
 .mobile-menu ul{
-  list-style-type: none;
-  
+  list-style-type: none;  
+}
+.mobile-menu ul li {
+  margin-bottom: 10px; 
 }
 .mobile-menu ul a {
   text-decoration: none;
+  color: black;
+  font-size: 14px;
+  font-weight: 100;
+}
+
+@keyframes slide-in-left {
+  from {
+      transform: translateX(100%); 
+      opacity: 0; 
+  }
+  to {
+      transform: translateX(0); 
+      opacity: 1; 
+  }
 }
 .mobile-menu.open {
   display: flex;
@@ -154,9 +174,18 @@ section{
   align-items: center;
 }
 
+.arrow select {
+  text-decoration: none;
+  border: none;
+  outline: none;
+ 
+
+}
+
 /* Container styles */
 .container-list {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   padding: 1rem 2rem;
   gap: 1rem;
@@ -192,7 +221,10 @@ section{
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
 .spending-table {
   width: 100%;
   border-collapse: collapse;
@@ -346,6 +378,10 @@ section{
  
 
 @media (max-width: 768px) {
+  .container-list {
+    display: block;
+
+  }
   .sidebar{
       display: none;
   }
@@ -358,6 +394,10 @@ margin-left: 20px;
 .section-input{
   width: 95%;
 
+ 
+}
+
+.spending-table {
  
 }
 }

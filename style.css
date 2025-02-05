@@ -27,6 +27,7 @@ header{
     width: 16%;
     justify-content: space-between;
     font-weight: 100;
+    
 }
 .menu-list a {
   text-decoration: none;
@@ -67,25 +68,44 @@ header{
   top: 0;
   left: 0;
   width: 100%;
-  
-  background: rgb(238, 233, 233);
+  background: rgba(238, 233, 233, 0.9);
   padding: 40px;
   align-items: center;
   justify-content: center;
-  transform: translateY(-100%);
-  transition: transform 0.3s ease-in-out;
+  animation-name: slide-in-left; 
+  animation-duration: 0.5s; 
+  animation-timing-function: ease-in-out; 
+}
+
+@keyframes slide-in-left {
+  from {
+      transform: translateX(100%); 
+      opacity: 0; 
+  }
+  to {
+      transform: translateX(0); 
+      opacity: 1; 
+  }
 }
 .mobile-menu ul{
   list-style-type: none;
   
 }
+.mobile-menu ul li {
+  margin-bottom: 10px; 
+}
 .mobile-menu ul a {
   text-decoration: none;
+  color: black;
+  font-size: 14px;
+  font-weight: 100;
 }
 .mobile-menu.open {
   display: flex;
   transform: translateY(0);
 }
+
+
 .close-menu {
   position: absolute;
   top: 20px;
@@ -115,12 +135,12 @@ header{
 .hero{
     width: 60%;
     margin: auto;
-    padding-top: 100px;
+    padding-top: 60px;
+    padding-bottom: 40px;
 }
 .hero-header{
     font-size: 50px;
     font-weight: 500;
-    animation-name: slide-in-left; 
   animation-duration: 1.5s; 
   animation-timing-function: ease-in-out; 
 }
@@ -162,13 +182,18 @@ header{
 
 .section-two{
     background-color: white;
-    margin: 30px 40px;
+    /* margin: 30px 40px; */
+    width: 75%;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    margin: auto;
     display: flex;
+    flex-wrap: wrap;
     gap: 50px;
     justify-content: space-between;
 }
 #about-me{
-    margin-top: 150px;
+    margin-top: 70px;
     font-size: 14.5px;
     width: 50%;
     line-height: 30px;
@@ -220,7 +245,7 @@ header{
     margin-right: 10px;
   }
 .features-how{
-    font-size: 50px;
+    font-size: 40px;
     font-weight: 500;
     text-align: center;
 }
@@ -328,6 +353,7 @@ line-height: 30px;
   
   .links {
     display: flex;
+    flex-wrap: wrap;
     width: 40%;
     justify-content: space-between;
     cursor: pointer;
@@ -347,14 +373,17 @@ line-height: 30px;
     .menu-list {
         display: none;
     }
+
+    .menu{
+      justify-content: space-between;
+    }
     .hamburger {
         display: flex;
+        margin-right: 40px;
     }
-    .hero-section{
-      padding: 20px;
-    }
+    
     .hero, .hero-sub{
-    width: 100%;
+    width: 90%;
  
   }
     .hero-header,.cta-header {
@@ -362,7 +391,7 @@ line-height: 30px;
       width: 100%;
     }
   .section-two{
-    display: block;
+   
   }
 #about-me{
   width: 100%;
