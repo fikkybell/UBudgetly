@@ -330,7 +330,41 @@ section{
     color: #92939D;
   }
 
+  .modal{
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    transition: 200ms ease-in-out;
+    /* display: none; */
+    border: 1px solid black;
+    z-index: 100;
+    background-color: white;
+    width: 500px;
+    max-width: 80%;
+  }
 
+.modal.active {
+  transform: translate(-50%, -50%) scale(1);
+  /* display: block; */
+}
+ #overlay{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  z-index: 50;
+  background-color: rgba(0, 0, 0, .5);
+  pointer-events: none;
+  opacity: 0;
+ }
+
+ #overlay.active {
+  opacity: 1;
+  pointer-events: all;
+ }
   /* Expenses */
 
   .container {
