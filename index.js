@@ -29,23 +29,48 @@ const incomeAmount = document.getElementById('amount');
 const incomeButton = document.getElementById('income-button');
 const incomeTotal = document.querySelector('.income-total');
 
+// Modal 
+const openModalButtons = document.getElementById('modalbtn')
+const closeModalButtons = document.getElementById('close-btn')
+const overlay = document.getElementById('overlay')
+const modal = document.getElementById('modal')
+openModalButtons.addEventListener('click', (e)=>{
+  e.preventDefault()
+  const amount = parseFloat(incomeAmount.value);
+  if (!amount || isNaN(amount) || amount < 0) {
+    alert('Please enter a valid income source and amount.');
+    return;
+  }
+  if (modal === null) return
+  else{
+   modal.classList.add('active')
+   overlay.classList.add('active')
+  }
+})
+ 
+closeModalButtons.addEventListener('click', (e)=>{
+  e.preventDefault()
+modal.classList.remove('active')
+overlay.classList.remove('active')
+})
+
 const selectedMonthElement = document.querySelector('#month-dropdown');
 console.log(selectedMonthElement)
 const currentMonth = selectedMonthElement ? selectedMonthElement.value : moment().format('MMMM');
 let expenseHistory = JSON.parse(localStorage.getItem('expenseHistory')) || {};
-console.log(expenseHistory[currentMonth])
+
 const monthSelector = document.querySelector(".arrow");
 
 
 let incomeHistory = JSON.parse(localStorage.getItem('incomeHistory')) || {};
 let total = incomeHistory[currentMonth] || 0;
 
-console.log(incomeHistory)
-// incomeTotal.textContent = `Your ${currentMonth} income total is: ${total}`;
+
 incomeButton.addEventListener('click', (e) => {
   e.preventDefault();
   const amount = parseFloat(incomeAmount.value);
-
+  const selectedMonthElement = document.querySelector('#month-dropdown');
+console.log(selectedMonthElement)
   if (!amount || isNaN(amount) || amount < 0) {
     alert('Please enter a valid income source and amount.');
     return;
@@ -65,16 +90,19 @@ incomeButton.addEventListener('click', (e) => {
 
   incomeAmount.value = '';
   incomeSource.value = '';
+  modal.classList.remove('active')
+  overlay.classList.remove('active')
 });
 
 
 function updateDisplayedIncome(selectedMonth) {
   let incomeHistory = JSON.parse(localStorage.getItem('incomeHistory')) || {};
-
+  const selectedMonthElement = document.querySelector('#month-dropdown');
+   
   let totalIncomeValue = incomeHistory[selectedMonth] || 0;
-
-  incomeTotal.textContent = `Your income total is: ${totalIncomeValue}`;
-  totalIncome.textContent = `Your income total is: ${totalIncomeValue}`;
+   let monthShort = selectedMonthElement.value.slice(0,3)
+  incomeTotal.textContent = `Your ${monthShort} income is: ${totalIncomeValue}`;
+  totalIncome.textContent = `Your ${monthShort} income is: ${totalIncomeValue}`;
 }
 
 
@@ -96,7 +124,7 @@ expenseBtn.addEventListener('click', (e) => {
 
   const selectedMonthElement = document.querySelector('#month-dropdown');
   const currentMonth = selectedMonthElement ? selectedMonthElement.value : moment().format('MMMM');
-
+  console.log(selectedMonthElement.value)
   let incomeHistory = JSON.parse(localStorage.getItem('incomeHistory')) || {};
 
   let totalIncomeValue = incomeHistory[currentMonth] || 0;
@@ -126,6 +154,7 @@ expenseBtn.addEventListener('click', (e) => {
   };
 
   let expenseHistory = JSON.parse(localStorage.getItem('expenseHistory')) || {};
+
   if (!expenseHistory[currentMonth]) {
     expenseHistory[currentMonth] = [];
   }
