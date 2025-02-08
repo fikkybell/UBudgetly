@@ -55,7 +55,6 @@ overlay.classList.remove('active')
 })
 
 const selectedMonthElement = document.querySelector('#month-dropdown');
-console.log(selectedMonthElement)
 const currentMonth = selectedMonthElement ? selectedMonthElement.value : moment().format('MMMM');
 let expenseHistory = JSON.parse(localStorage.getItem('expenseHistory')) || {};
 
@@ -69,8 +68,6 @@ let total = incomeHistory[currentMonth] || 0;
 incomeButton.addEventListener('click', (e) => {
   e.preventDefault();
   const amount = parseFloat(incomeAmount.value);
-  const selectedMonthElement = document.querySelector('#month-dropdown');
-console.log(selectedMonthElement)
   if (!amount || isNaN(amount) || amount < 0) {
     alert('Please enter a valid income source and amount.');
     return;
@@ -83,7 +80,6 @@ console.log(selectedMonthElement)
   incomeHistory[currentMonth] = (incomeHistory[currentMonth] || 0) + amount;
 
   localStorage.setItem('incomeHistory', JSON.stringify(incomeHistory));
-
   updateDisplayedIncome(currentMonth);
   renderCharts(currentMonth);
   getSpendingHistory(currentMonth);
@@ -92,13 +88,19 @@ console.log(selectedMonthElement)
   incomeSource.value = '';
   modal.classList.remove('active')
   overlay.classList.remove('active')
+  openModalButtons.style.display = "none"; 
+  setButtonState(true);
+ 
 });
-
+if (getButtonState()) {
+  console.log("The button was clicked before and is hidden.");
+} else {
+  console.log("The button is still visible.");
+}
 
 function updateDisplayedIncome(selectedMonth) {
   let incomeHistory = JSON.parse(localStorage.getItem('incomeHistory')) || {};
   const selectedMonthElement = document.querySelector('#month-dropdown');
-   
   let totalIncomeValue = incomeHistory[selectedMonth] || 0;
    let monthShort = selectedMonthElement.value.slice(0,3)
   incomeTotal.textContent = `Your ${monthShort} income is: ${totalIncomeValue}`;
@@ -178,7 +180,7 @@ expenseBtn.addEventListener('click', (e) => {
 
 
 
-// update expense table, display expense table
+// update expense table and display expense table
 
 function updateExpenseSection(selectedMonth) {
  
@@ -430,6 +432,18 @@ function showMonth(defaultMonth) {
   }
 }
 
+function getButtonState() {
+  return localStorage.getItem("myButtonClicked") === "true";
+}
+function setButtonState(state) {
+  localStorage.setItem("myButtonClicked", state ? "true" : "false");
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  if (getButtonState()) {
+    openModalButtons.style.display = "none"; 
+  }
+});
 
 function setEditMode(selectedMonth) {
   const current = moment().format("MMMM");
