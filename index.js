@@ -22,13 +22,14 @@ links.forEach(link => {
   });
 });
 
+
 // Income 
 
 const incomeSource = document.getElementById('source');
 const incomeAmount = document.getElementById('amount');
 const incomeButton = document.getElementById('income-button');
 const incomeTotal = document.querySelector('.income-total');
-
+const monthIncome = document.querySelector('.month-income')
 // Modal 
 const openModalButtons = document.getElementById('modalbtn')
 const closeModalButtons = document.getElementById('close-btn')
@@ -98,13 +99,18 @@ if (getButtonState()) {
   console.log("The button is still visible.");
 }
 
+
+
+
 function updateDisplayedIncome(selectedMonth) {
   let incomeHistory = JSON.parse(localStorage.getItem('incomeHistory')) || {};
   const selectedMonthElement = document.querySelector('#month-dropdown');
   let totalIncomeValue = incomeHistory[selectedMonth] || 0;
    let monthShort = selectedMonthElement.value.slice(0,3)
   incomeTotal.textContent = `Your ${monthShort} income is: ${totalIncomeValue}`;
-  totalIncome.textContent = `Your ${monthShort} income is: ${totalIncomeValue}`;
+  totalIncome.textContent = `Your income is: ${totalIncomeValue}`;
+  monthIncome.textContent =`Add ${selectedMonth} income`
+  monthexp.textContent = `Add ${monthShort} expenses`
 }
 
 
@@ -117,30 +123,59 @@ const expensePer = document.getElementById('expense-percentage')
 const expenseCategories = document.getElementById('categories')
 const totalIncome = document.querySelector('.add-more')
 const expenseBtn = document.getElementById('expense-btn')
+const monthexp = document.querySelector('.monthExp')
+const modalExp = document.getElementById('modal-expense')
+const modalInvalid = document.getElementById('modal-invalid')
+const modalper = document.getElementById('modal-per')
+const closeexpModal = document.getElementById('close-btn-exp')
+const closeexpInvalid = document.getElementById('close-btn-invalid')
+const closeexper = document.getElementById('close-btn-per')
+closeexpModal.addEventListener('click', (e)=>{
+  e.preventDefault()
+  modalExp.classList.remove('active')
+  modalInvalid.classList.remove('active')
+})
 
-
-
+closeexpInvalid.addEventListener('click', (e)=>{
+  e.preventDefault()
+  modalInvalid.classList.remove('active')
+})
+closeexper.addEventListener('click', (e)=>{
+  e.preventDefault()
+  modalper.classList.remove('active')
+})
 
 expenseBtn.addEventListener('click', (e) => {
   e.preventDefault();
 
   const selectedMonthElement = document.querySelector('#month-dropdown');
   const currentMonth = selectedMonthElement ? selectedMonthElement.value : moment().format('MMMM');
-  console.log(selectedMonthElement.value)
+  
   let incomeHistory = JSON.parse(localStorage.getItem('incomeHistory')) || {};
 
-  let totalIncomeValue = incomeHistory[currentMonth] || 0;
-
+  let totalIncomeValue = incomeHistory[selectedMonthElement.value] || 0;
+  
   const expenseAmountValue = parseFloat(expenseAmount.value);
-  if (isNaN(expenseAmountValue) || expenseAmountValue <= 0) {
-    alert("Please enter a valid expense amount.");
+  const expPervalue = parseFloat(expensePer.value)
+  if (isNaN(expenseAmountValue) || expenseAmountValue <= 0 || expPervalue <=0 || isNaN(expPervalue)) {
+    modalInvalid.classList.add('active') 
     return;
   }
 
   if (expenseAmountValue > totalIncomeValue) {
-    alert("The expense exceeds your total income. Operation not allowed.");
+    modalExp.classList.add('active') 
     return;
   }
+  const expenseHistoryData = JSON.parse(localStorage.getItem('expenseHistory')) || {};
+  //try to delete for testing
+  const monthExpenses = Object.values(expenseHistoryData[currentMonth] || {});
+  const totalPercentage = monthExpenses.reduce((acc, item) => acc + parseFloat(item.percentage), 0);
+  console.log("Total Percentage:", totalPercentage);
+  if (totalPercentage > 90){
+    modalper.classList.add('active') 
+    return;
+  }
+
 
   const updatedIncome = totalIncomeValue - expenseAmountValue;
   const actualPercentage = (expenseAmountValue / totalIncomeValue) * 100;
@@ -156,7 +191,7 @@ expenseBtn.addEventListener('click', (e) => {
   };
 
   let expenseHistory = JSON.parse(localStorage.getItem('expenseHistory')) || {};
-
+  
   if (!expenseHistory[currentMonth]) {
     expenseHistory[currentMonth] = [];
   }
@@ -178,7 +213,10 @@ expenseBtn.addEventListener('click', (e) => {
   expensePer.value = '';
 });
 
-
+function totalper(){
+  const expenseHistoryData = JSON.parse(localStorage.getItem('expenseHistory')) || {};
+  const monthExpenses = expenseHistoryData[selectedMonthElement.value] || [];
+}
 
 // update expense table and display expense table
 
@@ -251,6 +289,7 @@ function handleDelete(entryId, selectedMonth) {
   updateExpenseSection(selectedMonth);
   renderCharts(selectedMonth);
   getSpendingHistory(selectedMonth);
+  updateDisplayedIncome(selectedMonth)
 }
 
 
@@ -448,12 +487,12 @@ document.addEventListener("DOMContentLoaded", () => {
 function setEditMode(selectedMonth) {
   const current = moment().format("MMMM");
   const isCurrent = selectedMonth === current;
-
+   console.log(isCurrent)
   // Income controls
   incomeSource.disabled = !isCurrent;
   incomeAmount.disabled = !isCurrent;
   incomeButton.style.display = isCurrent ? "inline-block" : "none";
-
+  openModalButtons.style.display = isCurrent ? "inline-block" : "none";
   // Expense controls
   expenseName.disabled = !isCurrent;
   expenseAmount.disabled = !isCurrent;

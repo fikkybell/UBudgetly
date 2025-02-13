@@ -66,7 +66,7 @@
       <!-- income -->
       <section id="income" class="hidden">
         <div class="section-input">
-            <h4>Add Monthly income</h4>
+            <h4 class="month-income"></h4>
     <form action="">
         <div class="mt-2">
             <label for="income" class="text-sm text-black-900">Income source</label>
@@ -93,7 +93,7 @@
         <!-- modal -->
         <div class="modal" id="modal">
           <div class="modal-pop">
-            <button class="cancel-btn" id="close-btn">&times;</button>
+            <!-- <button class="cancel-btn" id="close-btn">&times;</button> -->
        <p>Are you sure this is your total income for the month? Once confirmed, you won’t be able to add more.</p>
        <div class="btns">
     
@@ -111,7 +111,7 @@
       <section id="expenses" class="hidden">
         <div class="section-input">
             <div class="section-header">
-                <h4>Add Expenses</h4>
+                <h4 class="monthExp"></h4>
                 <p class="add-more">Your total income is:</p>
             </div>
             
@@ -165,6 +165,35 @@
                   <button class="button mt-2" id="expense-btn">Save</button>
             </form>
         </div>
+        <div class="modal-expense" id="modal-expense">
+          <div class="modal-pop">
+            <button class="cancel-btn" id="close-btn-exp">&times;</button>
+            <div class="modal-content">
+            <img class="emoji" src="images/emoji.webp" alt="">
+       <p class="emoji-text">Whoa, that expense is bigger than your income! Your wallet is screaming for mercy.Try a smaller number.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Invalid modal -->
+        <div class="modal-invalid" id="modal-invalid">
+          <div class="modal-pop">
+            <button class="cancel-btn" id="close-btn-invalid">&times;</button>
+            <div class="modal-content">
+            <img class="emoji" src="images/feeling.png" alt="">
+       <p class="emoji-text">Whoa there! It looks like you entered an invallid expense or maybe you're paying in imaginary money? Please enter a real number greater than zero.</p>
+            </div>
+          </div>
+        </div>
+
+          <!-- Invalid modal -->
+          <div class="modal-per" id="modal-per">
+            <div class="modal-pop">
+              <button class="cancel-btn" id="close-btn-per">&times;</button>
+              <div class="modal-content">
+              <img class="emoji" src="images/math.jpg" alt="">Whoa there! your spending plan is dreaming too big! It’s hitting 100% (or more)! Time to check your math before your budget takes off.</p>
+              </div>
+            </div>
+          </div>
         <div class="spending-list">
           <p class="text-sm">Expenses list</p>
           <div class="table-responsive" >
