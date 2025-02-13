@@ -425,6 +425,10 @@ line-height: 30px;
   min-width: 180px;
   margin-top: 40px;
   }
+  .video-step{
+    min-width: 180px;
+    margin-top: 40px;
+    }
   .cta{
     width: 100%;
 }

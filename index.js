@@ -94,9 +94,9 @@ incomeButton.addEventListener('click', (e) => {
  
 });
 if (getButtonState()) {
-  console.log("The button was clicked before and is hidden.");
+  // console.log("The button was clicked before and is hidden.");
 } else {
-  console.log("The button is still visible.");
+  // console.log("The button is still visible.");
 }
 
 
@@ -170,7 +170,6 @@ expenseBtn.addEventListener('click', (e) => {
   //try to delete for testing
   const monthExpenses = Object.values(expenseHistoryData[currentMonth] || {});
   const totalPercentage = monthExpenses.reduce((acc, item) => acc + parseFloat(item.percentage), 0);
-  console.log("Total Percentage:", totalPercentage);
   if (totalPercentage > 90){
     modalper.classList.add('active') 
     return;
@@ -487,7 +486,7 @@ document.addEventListener("DOMContentLoaded", () => {
 function setEditMode(selectedMonth) {
   const current = moment().format("MMMM");
   const isCurrent = selectedMonth === current;
-   console.log(isCurrent)
+  
   // Income controls
   incomeSource.disabled = !isCurrent;
   incomeAmount.disabled = !isCurrent;
