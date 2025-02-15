@@ -174,7 +174,24 @@ section{
   justify-content: center;
   align-items: center;
 }
+#month-dropdown {
+   /* border: 1px solid transparent;  */
+  font-size: 0.875rem; 
+  color: black; 
+  width: 8rem; 
+  padding: 0.75rem; 
+  border-radius: 0.5rem; 
+  cursor: pointer;
+  border: none !important;
+  text-align: center;
+ 
+}
 
+select{
+  
+  outline: none !important;
+  box-shadow: none !important;
+}
 .arrow select {
   
  
@@ -320,6 +337,7 @@ section{
     cursor: pointer;
     text-align: center;
   }
+
   
   .button:hover {
     opacity: 0.9; 

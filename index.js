@@ -157,7 +157,7 @@ expenseBtn.addEventListener('click', (e) => {
   
   const expenseAmountValue = parseFloat(expenseAmount.value);
   const expPervalue = parseFloat(expensePer.value)
-  if (isNaN(expenseAmountValue) || expenseAmountValue <= 0 || expPervalue <=0 || isNaN(expPervalue)) {
+  if (isNaN(expenseAmountValue) || expenseAmountValue <= 0 || expPervalue <=0 || isNaN(expPervalue) || expenseName.value == '' ) {
     modalInvalid.classList.add('active') 
     return;
   }
@@ -441,7 +441,7 @@ function showMonth(defaultMonth) {
   if (!document.querySelector("#month-dropdown")) {
     const select = document.createElement("select");
     select.id = "month-dropdown";
-    select.classList.add("button");
+    // select.classList.add("button");
 
    
     for (let i = 0; i < 12; i++) {
