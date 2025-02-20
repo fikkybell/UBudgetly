@@ -1,206 +1,202 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="main.css">
   <title>Sidebar Navigation</title>
 </head>
+
 <body>
-    <header class="header-main">
-        <a href="/"><img class="header-img" src="images/ubudgetlyW.png" alt=""></a>
-        <div class="hamburger" onclick="toggleMenu()">
-          <span></span>
-          <span></span>
-          <span></span>
-      </div>
-    </header>
+  <header class="header-main">
+    <a href="/"><img class="header-img" src="images/ubudgetlyW.png" alt=""></a>
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </header>
   <div class="">
     <ul class="sidebar">
-      <li><a href="#home" class="nav-link active" data-nav="home"><img class="img-nav" src="images/home.svg" alt="">Home</a></li>
-      <li><a href="#income" class="nav-link" data-nav="income"><img class="img-nav" src="images/income.svg" alt="">Income</a></li>
-      <li><a href="#expenses" class="nav-link" data-nav="services"><img class="img-nav" src="images/budget.svg" alt="">Expenses</a></li>
-      <li class="help-nav"><a href="index.html"><img class="img-nav" src="images/help.svg" alt="">Help</a></li>
+      <li><a href="#home" class="nav-link active" data-nav="home"><img class="img-nav" src="images/home.svg"
+            alt="">Home</a></li>
+      <li><a href="#income" class="nav-link" data-nav="income"><img class="img-nav" src="images/income.svg"
+            alt="">Income</a></li>
+      <li><a href="#expenses" class="nav-link" data-nav="services"><img class="img-nav" src="images/budget.svg"
+            alt="">Expenses</a></li>
+      <li class="help-nav"><a href="index.html#line"><img class="img-nav" src="images/help.svg" alt="">Help</a></li>
     </ul>
-    
-  <div class="mobile-menu" id="mobileMenu">
-    <span class="close-menu" onclick="toggleMenu()">&times;</span>
-    <ul>
+
+    <div class="mobile-menu" id="mobileMenu">
+      <span class="close-menu" onclick="toggleMenu()">&times;</span>
+      <ul>
         <li><a href="#home" class="nav-link active" data-nav="home" onclick="toggleMenu()">Home</a></li>
-        <li><a href="#income" class="nav-link" data-nav="income" onclick="toggleMenu()">Income</a</li>
+        <li><a href="#income" class="nav-link" data-nav="income" onclick="toggleMenu()">Income</a></li>
         <li><a href="#expenses" class="nav-link" data-nav="services" onclick="toggleMenu()">Expenses</a></li>
-    </ul>
-</div>
+        <div class="menu-btns">
+          <li class="started-button"><a href="index.html#features-section" class="started" onclick="toggleMenu()">Watch
+              Demo</a></li>
+          <li class="contact-button"><a href="index.html#line" onclick="toggleMenu()">Contact me</a></li>
+        </div>
+      </ul>
+    </div>
   </div>
   <div class="content">
     <section id="home">
-      <div class="home-header"><h4>Welcome, here is your overview of your budget</h4>
-      <button class="arrow"></button>
+      <div class="home-header">
+        <h4>Welcome, here is your overview of your budget</h4>
+        <button class="arrow"></button>
       </div>
-  <div class="container-list">
-    <div class="expense-chart">
-      <canvas id="expenseChart"></canvas>
-    </div>
-    <div class="budget chart">
-      <canvas id="budgetChart"></canvas>
-    </div>
-  </div>
-  <div class="spending-list">
-    <p class="text-sm">Spending History For the month</p>
-    <table class="spending-table">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Category</th>
-          <th>Budget Tracker</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          
-        </tr>
-      </tbody>
-    </table>
-  </div>
-      </section>
-      <!-- income -->
-      <section id="income" class="hidden">
-        <div class="section-input">
-            <h4 class="month-income"></h4>
-    <form action="">
-        <div class="mt-2">
+      <div class="container-list">
+        <div class="expense-chart">
+          <canvas id="expenseChart"></canvas>
+        </div>
+        <div class="budget chart">
+          <canvas id="budgetChart"></canvas>
+        </div>
+      </div>
+      <div class="spending-list">
+        <p class="text-sm">Spending History For the month</p>
+        <table class="spending-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Category</th>
+              <th>Budget Tracker</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <!-- income -->
+    <section id="income" class="hidden">
+      <div class="section-input">
+        <h4 class="month-income"></h4>
+        <form action="">
+          <div class="mt-2">
             <label for="income" class="text-sm text-black-900">Income source</label>
-            <input
-              type="text"
-              id="source"
-              class="input-field"
-            />
+            <input type="text" id="source" class="input-field" />
           </div>
-          
+
           <div class="mt-2">
             <label for="amount" class="text-sm text-black-900">Amount</label>
-            <input
-              type="number"
-              id="amount"
-              class="input-field"
-            />
+            <input type="number" id="amount" class="input-field" />
           </div>
           <button class="button mt-2" id="modalbtn">Save</button>
-    </form>
-        </div>
-        <p class="income-total text-sm">Your income total is: </p>
+        </form>
+      </div>
+      <p class="income-total text-sm">Your income total is: </p>
 
-        <!-- modal -->
-        <div class="modal" id="modal">
-          <div class="modal-pop">
-            <!-- <button class="cancel-btn" id="close-btn">&times;</button> -->
-       <p>Are you sure this is your total income for the month? Once confirmed, you won’t be able to add more.</p>
-       <div class="btns">
-    
-        <button class="button mt-2" id="close-btn">Oops! no</button>
-        <button class="complete mt-2" id="income-button">Complete</button>
-       </div>
-         
+      <!-- modal -->
+      <div class="modal" id="modal">
+        <div class="modal-pop">
+          <!-- <button class="cancel-btn" id="close-btn">&times;</button> -->
+          <p>Are you sure this is your total income for the month? Once confirmed, you won’t be able to add more.</p>
+          <div class="btns">
+
+            <button class="button mt-2" id="close-btn">Oops! no</button>
+            <button class="complete mt-2" id="income-button">Complete</button>
           </div>
+
         </div>
-        <div class="" id="overlay"></div>
-      </section>
+      </div>
+      <div class="" id="overlay"></div>
+    </section>
 
 
-      <!-- Section -->
-      <section id="expenses" class="hidden">
-        <div class="section-input">
-            <div class="section-header">
-                <h4 class="monthExp"></h4>
-                <p class="add-more">Your total income is:</p>
-            </div>
-            
-            <form action="">
-                <div class="mt-2">
-                    <label for="" class="text-sm text-black-900">Expense Name or Savings</label>
-                    <input
-                      type="text"
-                      id="expense-name"
-                      class="input-field"
-                    />
-                  </div>
-                  <div class="mt-2">
-                    <label for="income" class="amount text-sm text-black-900">Amount?<img src="images/info.svg" class="info-img"></label>
-                    <div class="test"> *Ensure not to exceed your total income </div>
-                    <input
-                      type="number"
-                      id="expense-amount"
-                      class="input-field"
-                    />
-                  </div>
-                  <div class="mt-2">
-                    <label for="income" class="amount text-sm text-black-900">What percentage do you wish to spend?<img src="images/info.svg" class="info-img"></label>
-                    <div class="test"> *what percentage out of income do you wish to spend for this </div>
-                    <input
-                      type="text"
-                      id="expense-percentage"
-                      class="input-field"
-                    />
-                  </div>
-                  <div class="container">
-                    <label for="categories" class="label">Categories</label>
-                    <select id="categories" class="input-field">
-                      <option value="Rent">Rent/Mortgage</option>
-                      <option value="Utilities">Utilities (Electricity, Water, Gas, Internet)</option>
-                      <option value="Groceries">Groceries</option>
-                      <option value="DiningOut">Dining Out</option>
-                      <option value="Transportation">Transportation (Gas, Public Transit, Rideshare)</option>
-                      <option value="Insurance">Insurance (Health, Auto, Home, Life)</option>
-                      <option value="DebtRepayment">Debt Repayment (Loans, Credit Cards)</option>
-                      <option value="Savings">Savings & Investments</option>
-                      <option value="Entertainment">Entertainment (Streaming, Events, Hobbies)</option>
-                      <option value="Health">Health & Medical</option>
-                      <option value="Education">Education & Learning</option>
-                      <option value="PersonalCare">Personal Care (Clothing, Beauty, Haircuts)</option>
-                      <option value="Gifts">Gifts & Donations</option>
-                      <option value="Miscellaneous">Miscellaneous</option>
-                      <option value="Others">Others</option>
-                    </select>
-                  </div>
-                  <button class="button mt-2" id="expense-btn">Save</button>
-            </form>
+    <!-- Section -->
+    <section id="expenses" class="hidden">
+      <div class="section-input">
+        <div class="section-header">
+          <h4 class="monthExp"></h4>
+          <p class="add-more">Your total income is:</p>
         </div>
-        <div class="modal-expense" id="modal-expense">
-          <div class="modal-pop">
-            <button class="cancel-btn" id="close-btn-exp">&times;</button>
-            <div class="modal-content">
+
+        <form action="">
+          <div class="mt-2">
+            <label for="" class="text-sm text-black-900">Expense Name or Savings</label>
+            <input type="text" id="expense-name" class="input-field" />
+          </div>
+          <div class="mt-2">
+            <label for="income" class="amount text-sm text-black-900">Amount?<img src="images/info.svg"
+                class="info-img"></label>
+            <div class="test"> *Ensure not to exceed your total income </div>
+            <input type="number" id="expense-amount" class="input-field" />
+          </div>
+          <div class="mt-2">
+            <label for="income" class="amount text-sm text-black-900">What percentage do you wish to spend?<img
+                src="images/info.svg" class="info-img"></label>
+            <div class="test"> *What percentage out of your income do you wish to spend </div>
+            <input type="text" id="expense-percentage" class="input-field" />
+          </div>
+          <div class="container">
+            <label for="categories" class="label">Categories</label>
+            <select id="categories" class="input-field">
+              <option value="Rent">Rent/Mortgage</option>
+              <option value="Utilities">Utilities (Electricity, Water, Gas, Internet)</option>
+              <option value="Groceries">Groceries</option>
+              <option value="DiningOut">Dining Out</option>
+              <option value="Transportation">Transportation (Gas, Public Transit, Rideshare)</option>
+              <option value="Insurance">Insurance (Health, Auto, Home, Life)</option>
+              <option value="DebtRepayment">Debt Repayment (Loans, Credit Cards)</option>
+              <option value="Savings">Savings & Investments</option>
+              <option value="Entertainment">Entertainment (Streaming, Events, Hobbies)</option>
+              <option value="Health">Health & Medical</option>
+              <option value="Education">Education & Learning</option>
+              <option value="PersonalCare">Personal Care (Clothing, Beauty, Haircuts)</option>
+              <option value="Gifts">Gifts & Donations</option>
+              <option value="Miscellaneous">Miscellaneous</option>
+              <option value="Others">Others</option>
+            </select>
+          </div>
+          <button class="button mt-2" id="expense-btn">Save</button>
+        </form>
+      </div>
+      <div class="modal-expense" id="modal-expense">
+        <div class="modal-pop">
+          <button class="cancel-btn" id="close-btn-exp">&times;</button>
+          <div class="modal-content">
             <img class="emoji" src="images/emoji.webp" alt="">
-       <p class="emoji-text">Whoa, that expense is bigger than your income! Your wallet is screaming for mercy.Try a smaller number.</p>
-            </div>
+            <p class="emoji-text">Whoa, that expense is bigger than your income! Your wallet is screaming for mercy.Try
+              a smaller number.</p>
           </div>
         </div>
-        <!-- Invalid modal -->
-        <div class="modal-invalid" id="modal-invalid">
-          <div class="modal-pop">
-            <button class="cancel-btn" id="close-btn-invalid">&times;</button>
-            <div class="modal-content">
+      </div>
+      <!-- Invalid modal -->
+      <div class="modal-invalid" id="modal-invalid">
+        <div class="modal-pop">
+          <button class="cancel-btn" id="close-btn-invalid">&times;</button>
+          <div class="modal-content">
             <img class="emoji" src="images/feeling.png" alt="">
-       <p class="emoji-text">Whoa there! It looks like you entered an invallid expense or maybe you're paying in imaginary money? Please enter a real number greater than zero.</p>
-            </div>
+            <p class="emoji-text">Whoa there! It looks like you entered an invallid expense or maybe you're paying in
+              imaginary money? Please enter a real number greater than zero.</p>
           </div>
         </div>
+      </div>
 
-          <!-- Invalid modal -->
-          <div class="modal-per" id="modal-per">
-            <div class="modal-pop">
-              <button class="cancel-btn" id="close-btn-per">&times;</button>
-              <div class="modal-content">
-              <img class="emoji" src="images/math.jpg" alt="">Whoa there! your spending plan is dreaming too big! It’s hitting 100% (or more)! Time to check your math before your budget takes off.</p>
-              </div>
-            </div>
+      <!-- Invalid modal -->
+      <div class="modal-per" id="modal-per">
+        <div class="modal-pop">
+          <button class="cancel-btn" id="close-btn-per">&times;</button>
+          <div class="modal-content">
+            <img class="emoji" src="images/math.jpg" alt="">Whoa there! your spending plan is dreaming too big! It’s
+            hitting 100% (or more)! Time to check your math before your budget takes off.</p>
           </div>
-        <div class="spending-list">
-          <p class="text-sm">Expenses list</p>
-          <div class="table-responsive" >
+        </div>
+      </div>
+      <div class="spending-list">
+        <p class="text-sm">Expenses list</p>
+        <div class="table-responsive">
           <table class="spending-table">
             <thead>
               <tr>
-                <th >Name</th>
+                <th>Name</th>
                 <th>Amount</th>
                 <th>Categories</th>
                 <th>Desired %</th>
@@ -209,12 +205,12 @@
               </tr>
             </thead>
             <tbody>
-           
+
 
             </tbody>
           </table>
         </div>
-        </div>
+      </div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
@@ -222,10 +218,21 @@
   <script src="index.js"></script>
   <script>
     function toggleMenu() {
-        const mobileMenu = document.getElementById('mobileMenu');
-        mobileMenu.classList.toggle('open');
+      const mobileMenu = document.getElementById('mobileMenu');
+
+      if (mobileMenu.classList.contains('open')) {
+        mobileMenu.classList.add('slide-out');
+        mobileMenu.addEventListener('animationend', function handler() {
+          mobileMenu.classList.remove('open');
+          mobileMenu.classList.remove('slide-out');
+          mobileMenu.removeEventListener('animationend', handler);
+        });
+      } else {
+        mobileMenu.classList.add('open');
+      }
     }
-</script>
+  </script>
 
 </body>
+
 </html>
