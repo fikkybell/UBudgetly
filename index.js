@@ -19,6 +19,7 @@ links.forEach((link) => {
   });
 });
 // Modal
+localStorage.clear()
 const openModalButtons = document.getElementById("modalbtn");
 const closeModalButtons = document.getElementById("close-btn");
 const overlay = document.getElementById("overlay");
