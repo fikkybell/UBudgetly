@@ -245,15 +245,15 @@ expenseBtn.addEventListener("click", (e) => {
   const monthExpenses = Object.values(expenseHistoryData[currentMonth] || {});
 
   const currentTotal = monthExpenses.reduce(
-    (acc, item) => acc + parseFloat(item.percentage),
+    (acc, item) => acc + parseFloat(item.actualPer),
     0
   );
-  console.log(currentTotal);
-  console.log(currentTotal + parseFloat(expensePer.value));
+  // console.log(currentTotal);
+
 
   if (currentTotal + parseFloat(actualPercentage.toFixed(0)) > 100) {
     modalper.classList.add("active");
-    console.log(currentTotal + parseFloat(actualPercentage.toFixed(1)));
+    // console.log(currentTotal + parseFloat(actualPercentage.toFixed(0)));
     return;
   }
 
@@ -388,18 +388,15 @@ function getSpendingHistory() {
     const userDefinedPer = parseFloat(entry.percentage);
 
     let backgroundColor;
-    if (actualPer > userDefinedPer) {
-      backgroundColor = "red";
-    } else if (actualPer >= userDefinedPer * 0.8) {
-      backgroundColor = "yellow";
-    }
-    else if (actualPer == userDefinedPer ) {
-      backgroundColor = 'green';
-    }
-    else {
-      backgroundColor = "green";
-    }
+  if (actualPer <= userDefinedPer) {
+    backgroundColor = "green";
+  } else if (actualPer <= userDefinedPer * 1.2) { // up to 20% over target
 
+    backgroundColor = "yellow";
+  } else {
+    backgroundColor = "red";
+  }
+  // console.log(entry.name, backgroundColor);
     const historyDiv = document.createElement("tr");
     historyDiv.innerHTML = `
       <td>${entry.name}</td>
@@ -550,17 +547,13 @@ function setButtonState(state) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  const current = moment().format("MMMM");
-  const isCurrent = selectedMonth === current;
+
   if (getButtonState()) {
     openModalButtons.style.display = "none";
     incomeAmount.disabled = true;
     incomeSource.disabled = true;
   }
-  if (!isCurrent) {
-    incomeAmount.disabled = true;
-    incomeSource.disabled = true;
-  }
+
 });
 
 function setEditMode(selectedMonth) {
@@ -577,6 +570,8 @@ function setEditMode(selectedMonth) {
     openModalButtons.style.display = "inline-block";
   } else {
     openModalButtons.style.display = "none";
+    incomeAmount.disabled = true;
+    incomeSource.disabled = true;
   }
   // Expense controls
   expenseName.disabled = !isCurrent;
