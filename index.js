@@ -552,8 +552,12 @@ function setButtonState(state) {
 document.addEventListener("DOMContentLoaded", () => {
   const current = moment().format("MMMM");
   const isCurrent = selectedMonth === current;
-  if (getButtonState() || !isCurrent) {
+  if (getButtonState()) {
     openModalButtons.style.display = "none";
+    incomeAmount.disabled = true;
+    incomeSource.disabled = true;
+  }
+  if (!isCurrent) {
     incomeAmount.disabled = true;
     incomeSource.disabled = true;
   }
