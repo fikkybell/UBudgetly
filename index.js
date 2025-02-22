@@ -103,6 +103,8 @@ incomeButton.addEventListener("click", (e) => {
   modal.classList.remove("active");
   overlay.classList.remove("active");
   openModalButtons.style.display = "none";
+  incomeAmount.disabled = true;
+  incomeSource.disabled = true;
 
   updateDisplayedIncome(currentMonth);
   updateDisplayedIncomeText(currentMonth);
@@ -129,6 +131,7 @@ function updateDisplayedIncome(selectedMonth) {
     incomeTotal.textContent = `Viewing ${selectedMonth} income (read-only)`;
     totalIncome.textContent = "";
     monthIncome.textContent = `Viewing ${selectedMonth} income`;
+    monthexp.textContent = `Add ${selectedMonth} expenses`;
     return;
   }
 
@@ -149,7 +152,7 @@ function updateDisplayedIncome(selectedMonth) {
   incomeTotal.textContent = `Your ${monthShort} income is: ${fixIncomeValue}`;
   totalIncome.textContent = `Your remaining income is: ${totalIncomeValue}`;
   monthIncome.textContent = `Add ${selectedMonth} income`;
-  monthexp.textContent = `Add ${monthShort} expenses`;
+  // monthexp.textContent = `Add ${monthShort} expenses`;
 }
 
 function updateDisplayedIncomeText(selectedMonth) {
@@ -170,6 +173,7 @@ function updateDisplayedIncomeText(selectedMonth) {
 
   incomeSource.value = fixIncomeSource;
   incomeAmount.value = fixIncomeValue;
+  
 }
 
 //Expenses section
@@ -247,7 +251,7 @@ expenseBtn.addEventListener("click", (e) => {
   console.log(currentTotal);
   console.log(currentTotal + parseFloat(expensePer.value));
 
-  if (currentTotal + parseFloat(expensePer.value) > 100) {
+  if (currentTotal + parseFloat(actualPercentage.toFixed(0)) > 100) {
     modalper.classList.add("active");
     console.log(currentTotal + parseFloat(actualPercentage.toFixed(1)));
     return;
@@ -389,9 +393,9 @@ function getSpendingHistory() {
     } else if (actualPer >= userDefinedPer * 0.8) {
       backgroundColor = "yellow";
     }
-    // else if (actualPer == userDefinedPer ) {
-    //   backgroundColor = 'green';
-    // }
+    else if (actualPer == userDefinedPer ) {
+      backgroundColor = 'green';
+    }
     else {
       backgroundColor = "green";
     }
@@ -562,6 +566,8 @@ function setEditMode(selectedMonth) {
   incomeAmount.disabled = !isCurrent;
   incomeButton.style.display = isCurrent ? "inline-block" : "none";
   openModalButtons.style.display = isCurrent ? "inline-block" : "none";
+  incomeAmount.disabled = true;
+  incomeSource.disabled = true;
 
   if (isCurrent && !getButtonState()) {
     openModalButtons.style.display = "inline-block";
