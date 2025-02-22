@@ -550,7 +550,9 @@ function setButtonState(state) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  if (getButtonState()) {
+  const current = moment().format("MMMM");
+  const isCurrent = selectedMonth === current;
+  if (getButtonState() || !isCurrent) {
     openModalButtons.style.display = "none";
     incomeAmount.disabled = true;
     incomeSource.disabled = true;
@@ -562,13 +564,11 @@ function setEditMode(selectedMonth) {
   const isCurrent = selectedMonth === current;
 
   // Income controls
-  incomeSource.disabled = !isCurrent;
-  incomeAmount.disabled = !isCurrent;
+  // incomeSource.disabled = !isCurrent;
+  // incomeAmount.disabled = !isCurrent;
   incomeButton.style.display = isCurrent ? "inline-block" : "none";
   openModalButtons.style.display = isCurrent ? "inline-block" : "none";
-  incomeAmount.disabled = true;
-  incomeSource.disabled = true;
-
+ 
   if (isCurrent && !getButtonState()) {
     openModalButtons.style.display = "inline-block";
   } else {
