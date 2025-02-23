@@ -427,17 +427,24 @@ line-height: 30px;
   }
   
   .menu-item {
-    font-size: 13px;
+    font-size: 14px;
     color: #9B9B9B;
-    margin-top: 8px;
     display: flex;
     align-items: center;
-    justify-items: center;
-    list-style-type: none;
-  }
-  .menu-item a {
     text-decoration: none;
-    color: #9B9B9B;
+    
+  }
+.menu1 li{
+  margin-top: 8px;
+  list-style-type: none;
+}
+ 
+.menu-item p{
+  margin-left: 7px;
+}
+
+  .menu-img{
+    width: 18px;
   }
   .footer-bottom{
     padding-top: 70px;
