@@ -23,8 +23,11 @@
             alt="">Dashboard</a></li>
       <li><a href="#income" class="nav-link" data-nav="income"><img class="img-nav" src="images/income.svg"
             alt="">Income</a></li>
+      <li><a href="#budget" class="nav-link" data-nav="budget"><img class="img-nav" src="images/budget.svg"
+            alt="">Budget</a></li>
       <li><a href="#expenses" class="nav-link" data-nav="services"><img class="img-nav" src="images/budget.svg"
             alt="">Expenses</a></li>
+     
       <li class="help-nav"><a href="index.html#line"><img class="img-nav" src="images/help.svg" alt="">Help</a></li>
     </ul>
 
@@ -33,6 +36,7 @@
       <ul>
         <li><a href="#home" class="nav-link active" data-nav="home" onclick="toggleMenu()">Dashboard</a></li>
         <li><a href="#income" class="nav-link" data-nav="income" onclick="toggleMenu()">Income</a></li>
+        <li><a href="#budget" class="nav-link" data-nav="budget" onclick="toggleMenu()">Budget</a></li>
         <li><a href="#expenses" class="nav-link" data-nav="services" onclick="toggleMenu()">Expenses</a></li>
         <div class="menu-btns">
           <li class="started-button"><a href="index.html#features-section" class="started" onclick="toggleMenu()">Watch
@@ -61,7 +65,6 @@
         <table class="spending-table">
           <thead>
             <tr>
-              <th>Name</th>
               <th>Category</th>
               <th>Budget Tracker</th>
             </tr>
@@ -109,12 +112,74 @@
       <div class="" id="overlay"></div>
     </section>
 
+  <!-- Budget Section -->
+  <section id="budget">
+    <div class="section-input">
+      <div class="section-header">
+        <h4 class="monthExp">Add Monthly desired budget</h4>
+        <p class="budget-per"></p>
+      </div>
+      <form action="">
+        <div class="mt-2">
+          <div class="container">
+            <label for="" class="text-sm text-black-900">Categories name (Rent, Education, Utilities etc)</label>
+            <select id="cat-name"  onchange=handleSelection()  class="input-field">
+              <option value="Rent">Rent/Mortgage</option>
+              <option value="Utilities">Utilities (Electricity, Water, Gas, Internet)</option>
+              <option value="Groceries">Groceries</option>
+              <option value="Transportation">Transportation (Gas, Public Transit, Rideshare)</option>
+              <option value="Savings">Savings & Investments</option>
+              <option value="Education">Education & Learning</option>
+              <option value="Other">Others</option>
+            </select>
+            <input type="text" class="input-field" id="otherInput" placeholder="Enter your option" style="display: none;" />
+          </div>
+        </div>
+        <div class="mt-2">
+          <label for="income" class="text-sm text-black-900">Percentage %</label>
+          <input type="number" id="cat-amount" class="input-field" />
+        </div>
+        <button class="button mt-2" id="budget-btn">Save</button>
+      </form>
+    </div>
+    <div class="spending-list">
+      <p class="text-sm">Categories</p>
+      <div class="table-responsive">
+        <table class="spending-table">
+          <thead>
+            <tr>
+              <th>Categories</th>
+              <th>Percentage</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
 
-    <!-- Section -->
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+     <!-- modal -->
+     <div class="modal" id="modal-budget">
+      <div class="modal-pop">
+        <!-- <button class="cancel-btn" id="close-btn">&times;</button> -->
+        <p>Your percentage left is 0. Are yo sure you want to complete, once confirmed, the page will change to view only</p>
+        <div class="btns">
+
+          <button class="button mt-2" id="close-budget">Oops! no</button>
+          <button class="complete mt-2" id="budget-button">Complete</button>
+        </div>
+
+      </div>
+    </div>
+    <div class="" id="overlay"></div>
+  </section>
+    <!-- Expense Section -->
     <section id="expenses" class="hidden">
       <div class="section-input">
         <div class="section-header">
-          <h4 class="monthExp"></h4>
+          <h4 class="monthExp">Expenses</h4>
           <p class="add-more">Your total income is:</p>
         </div>
 
@@ -129,35 +194,23 @@
             <div class="test"> *Ensure not to exceed your total income </div>
             <input type="number" id="expense-amount" class="input-field" />
           </div>
-          <div class="mt-2">
+          <!-- <div class="mt-2">
             <label for="income" class="amount text-sm text-black-900">What percentage do you wish to spend?<img
                 src="images/info.svg" class="info-img"></label>
             <div class="test"> *What percentage out of your income do you wish to spend </div>
             <input type="text" id="expense-percentage" class="input-field" />
-          </div>
+          </div> -->
           <div class="container">
             <label for="categories" class="label">Categories</label>
             <select id="categories" class="input-field">
               <option value="Rent">Rent/Mortgage</option>
               <option value="Utilities">Utilities (Electricity, Water, Gas, Internet)</option>
-              <option value="Groceries">Groceries</option>
-              <option value="DiningOut">Dining Out</option>
-              <option value="Transportation">Transportation (Gas, Public Transit, Rideshare)</option>
-              <option value="Insurance">Insurance (Health, Auto, Home, Life)</option>
-              <option value="DebtRepayment">Debt Repayment (Loans, Credit Cards)</option>
-              <option value="Savings">Savings & Investments</option>
-              <option value="Entertainment">Entertainment (Streaming, Events, Hobbies)</option>
-              <option value="Health">Health & Medical</option>
-              <option value="Education">Education & Learning</option>
-              <option value="PersonalCare">Personal Care (Clothing, Beauty, Haircuts)</option>
-              <option value="Gifts">Gifts & Donations</option>
-              <option value="Miscellaneous">Miscellaneous</option>
-              <option value="Others">Others</option>
             </select>
           </div>
           <button class="button mt-2" id="expense-btn">Save</button>
         </form>
       </div>
+     
       <div class="modal-expense" id="modal-expense">
         <div class="modal-pop">
           <button class="cancel-btn" id="close-btn-exp">&times;</button>
@@ -197,9 +250,8 @@
             <thead>
               <tr>
                 <th>Name</th>
-                <th>Amount</th>
                 <th>Categories</th>
-                <th>Desired %</th>
+                <th>Amount</th>
                 <th>Actual %</th>
                 <th></th>
               </tr>
@@ -211,6 +263,11 @@
           </table>
         </div>
       </div>
+
+      <div id="tableContainer" class="table-responsive spending-list" >
+
+      </div>
+      </section>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
@@ -231,6 +288,17 @@
         mobileMenu.classList.add('open');
       }
     }
+
+    function handleSelection() {
+            const select = document.getElementById("cat-name");
+            const otherInput = document.getElementById("otherInput");
+
+            if (select.value === "Other") {
+                select.style.display = "none";
+                otherInput.style.display = "inline-block";
+                otherInput.focus();
+            }
+        }
   </script>
 
 </body>

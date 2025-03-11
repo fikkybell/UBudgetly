@@ -500,7 +500,11 @@ select{
     color: #f66f00;
     font-weight: 100;
   }
- 
+  .budget-per{
+    font-size: 13px;
+    color: #f66f00;
+    font-weight: 100;
+  }
   .info-img{
     width: 13px;
     margin-left: 4px;
