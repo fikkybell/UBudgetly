@@ -185,6 +185,10 @@ const closeModalBud = document.getElementById("close-budget");
 const budgetBtn = document.getElementById('budget-button')
 const otherInput = document.getElementById('otherInput')
 const budgetPer = document.querySelector('.budget-per')
+const closeDuplicate = document.getElementById('close-btn-duplicate')
+const modalDuplicate = document.getElementById('modalbud-duplicate')
+const closeModalExceed = document.getElementById('close-btn-more')
+const modalExceed = document.getElementById('modalbud-more')
 let catHistory =  JSON.parse(localStorage.getItem('catData')) || {}
 let budgetPerHistory = JSON.parse(localStorage.getItem("budgetPerHistory")) || {}; 
 let budgetperValue = budgetPerHistory[currentMonth] !== undefined ? budgetPerHistory[currentMonth] : 100;
@@ -192,11 +196,21 @@ let budgetperValue = budgetPerHistory[currentMonth] !== undefined ? budgetPerHis
 budgetPer.textContent = `Your available %: ${budgetperValue}%`;
 
 console.log('catHistorty', catHistory)
+
 closeModalBud.addEventListener('click', (e)=>{
   e.preventDefault()
   modalBud.classList.remove("active");
 })
 
+closeDuplicate.addEventListener('click', (e)=>{
+  e.preventDefault()
+  modalDuplicate.classList.remove("active");
+})
+
+closeModalExceed.addEventListener('click', (e)=>{
+  e.preventDefault()
+  modalExceed.classList.remove("active");
+})
 function getCategoryValue() {
   return categoriesName.value === "Other" ? otherInput.value : categoriesName.value;
 }
@@ -227,7 +241,7 @@ categoriesBtn.addEventListener("click", (e) => {
   }
 
   if (isDuplicate) {
-    alert("This category already exists!");
+    modalDuplicate.classList.add('active')
     return;
   }
 
@@ -238,7 +252,7 @@ categoriesBtn.addEventListener("click", (e) => {
   );
 
   if (currentTotal + newPercentage > 100) {
-    alert("You have exceeded 100%");
+    modalExceed.classList.add("active");
     return;
   }
 
