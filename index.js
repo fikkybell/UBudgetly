@@ -193,7 +193,7 @@ let catHistory =  JSON.parse(localStorage.getItem('catData')) || {}
 let budgetPerHistory = JSON.parse(localStorage.getItem("budgetPerHistory")) || {}; 
 let budgetperValue = budgetPerHistory[currentMonth] !== undefined ? budgetPerHistory[currentMonth] : 100;
 
-budgetPer.textContent = `Your available %: ${budgetperValue}%`;
+budgetPer.textContent = `Your available %: ${budgetperValue}`;
 
 console.log('catHistorty', catHistory)
 
@@ -265,7 +265,7 @@ categoriesBtn.addEventListener("click", (e) => {
   budgetPerHistory[currentMonth] = budgetperValue;
   localStorage.setItem("budgetPerHistory", JSON.stringify(budgetPerHistory));
 
-  budgetPer.textContent = `Your available %: ${budgetperValue}%`;
+  budgetPer.textContent = `Your available %: ${budgetperValue}`;
 
   let catData = {
     id: `cat-${Date.now()}`,
@@ -576,7 +576,6 @@ function getSpendingHistory() {
   tableBody.innerHTML = "";
 
   if (!monthExpenses.length) {
-    console.warn(`No expenses recorded for ${currentMonth}`);
     return; 
   }
 
@@ -672,22 +671,26 @@ function renderCharts(selectedMonth) {
   const monthExpenses = history[selectedMonth] || [];
   const catSelectHistory = catHistory[selectedMonth] || [];
   let totalPercentages = calculateTotalPercentages(monthExpenses);
-  
+
   // Ensure categories do not repeat
   let processedCategories = new Set();
-  
   let expenseData = [];
   let expenseLabels = [];
 
   Object.keys(totalPercentages).forEach(category => {
     if (!processedCategories.has(category)) {
       processedCategories.add(category);
-      expenseLabels.push(category); 
+      expenseLabels.push(category);
+      expenseData.push(totalPercentages[category]); // Push expense value
     }
   });
 
-  const totalExpenses = expenseData.reduce((sum, val) => sum + val, 0);
-  
+  const totalExpenses = expenseData.reduce((sum, val) => sum + val, 0); // Sum of all expenses
+
+  // Debugging
+  console.log("Expense Data:", expenseData);
+  console.log("Total Expenses:", totalExpenses);
+
   const expenseChartContainer = document.querySelector(".expense-chart");
   const budgetChartContainer = document.querySelector(".budget.chart");
 
@@ -764,6 +767,7 @@ function renderCharts(selectedMonth) {
     });
   }
 }
+    
 
 
 // show all months
@@ -876,7 +880,7 @@ function handleDeleteBudget(entryId, selectedMonth) {
     budgetPerHistory[selectedMonth] = budgetperValue;
     localStorage.setItem("budgetPerHistory", JSON.stringify(budgetPerHistory));
 
-    budgetPer.textContent = `Your available %: ${budgetperValue}%`;
+    budgetPer.textContent = `Your available %: ${budgetperValue}`;
 
     monthExpenses = monthExpenses.filter((item) => String(item.id) !== String(entryId));
     catHistoryData[selectedMonth] = monthExpenses;
@@ -914,7 +918,7 @@ function updateDisplayExpense(){
 function updateBudgetPer(selectedMonth) {
   budgetPerHistory = JSON.parse(localStorage.getItem("budgetPerHistory")) || {};
   budgetperValue = budgetPerHistory[selectedMonth] !== undefined ? budgetPerHistory[selectedMonth] : 100;
-  budgetPer.textContent = `Your available %: ${budgetperValue}%`;
+  budgetPer.textContent = `Your available %: ${budgetperValue}`;
 
   updateCategoriesTable(selectedMonth);
 };
