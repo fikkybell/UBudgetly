@@ -672,7 +672,7 @@ function renderCharts(selectedMonth) {
   const catSelectHistory = catHistory[selectedMonth] || [];
   let totalPercentages = calculateTotalPercentages(monthExpenses);
 
-  // Ensure categories do not repeat
+
   let processedCategories = new Set();
   let expenseData = [];
   let expenseLabels = [];
@@ -681,15 +681,13 @@ function renderCharts(selectedMonth) {
     if (!processedCategories.has(category)) {
       processedCategories.add(category);
       expenseLabels.push(category);
-      expenseData.push(totalPercentages[category]); // Push expense value
+      expenseData.push(totalPercentages[category]); 
     }
   });
 
-  const totalExpenses = expenseData.reduce((sum, val) => sum + val, 0); // Sum of all expenses
+  const totalExpenses = expenseData.reduce((sum, val) => sum + val, 0); 
 
-  // Debugging
-  console.log("Expense Data:", expenseData);
-  console.log("Total Expenses:", totalExpenses);
+  
 
   const expenseChartContainer = document.querySelector(".expense-chart");
   const budgetChartContainer = document.querySelector(".budget.chart");
