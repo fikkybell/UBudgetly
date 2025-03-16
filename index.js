@@ -520,7 +520,7 @@ if (!catHistory[selectedMonth]) {
                 <table class="spending-table">
                     <thead>
                         <tr>
-                            <th  colspan="2">${entry.categories}</th>
+                            <th  colspan="2">${entry.categories.toUpperCase()}</th>
                         </tr>
                         <tr>
                             <th>Desired %</th>
