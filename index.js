@@ -116,9 +116,9 @@ incomeButton.addEventListener("click", (e) => {
 });
 
 if (getButtonStateBud()) {
-  console.log("The button was clicked before and is hidden.");
+  // console.log("The button was clicked before and is hidden.");
 } else {
-  console.log("The button is still visible.");
+  // console.log("The button is still visible.");
 }
 
 function updateDisplayedIncome(selectedMonth) {
@@ -131,14 +131,16 @@ function updateDisplayedIncome(selectedMonth) {
     incomeTotal.textContent = `Viewing ${selectedMonth} income (read-only)`;
     totalIncome.textContent = "";
     monthIncome.textContent = `Viewing ${selectedMonth} income`;
-    monthexp.textContent = `Add ${selectedMonth} expenses`;
+    monthexp.textContent = `Viewing ${selectedMonth} expenses`;
     return;
+  } else{
+    updateDisplayExpense()
   }
 
   const selectedMonthElement = document.querySelector("#month-dropdown");
   let totalIncomeValue = incomeHistory[selectedMonth] || 0;
 
-  // to prevent undefined error
+
   let fixIncomeValue =
     incomeHistoryFixed[selectedMonth] &&
     incomeHistoryFixed[selectedMonth].length > 0
@@ -195,7 +197,6 @@ let budgetperValue = budgetPerHistory[currentMonth] !== undefined ? budgetPerHis
 
 budgetPer.textContent = `Your available %: ${budgetperValue}`;
 
-console.log('catHistorty', catHistory)
 
 closeModalBud.addEventListener('click', (e)=>{
   e.preventDefault()
@@ -216,16 +217,7 @@ function getCategoryValue() {
 }
 
 
-budgetBtn.addEventListener('click', (e)=>{
-  e.preventDefault()
-  console.log('working here')
-  modalBud.classList.remove("active");
-  categoriesBtn.style.display = "none";
-  categoriesName.disabled = true;
-  categoriesPer.disabled = true;
-  setButtonStateBud(true)
-  updateCategoriesTable(currentMonth)
-})
+let pendingCategory = null;
 
 categoriesBtn.addEventListener("click", (e) => {
   e.preventDefault();
@@ -251,29 +243,57 @@ categoriesBtn.addEventListener("click", (e) => {
     (acc, item) => acc + parseFloat(item.percentage), 0
   );
 
-  if (currentTotal + newPercentage > 100) {
+  if (currentTotal + newPercentage > 100) {  
     modalExceed.classList.add("active");
     return;
   }
 
   if (currentTotal + newPercentage === 100) {
-    showModalBudget();
+    showModalBudget(); 
+    pendingCategory = {
+      id: `cat-${Date.now()}`,
+      categories: getCategoryValue(),
+      percentage: newPercentage,
+    };
+    return;
+  }
+  updateSelectCategories(currentMonth);
+  addCategory(newPercentage);
+});
+
+
+budgetBtn.addEventListener('click', (e) => {
+  e.preventDefault();
+
+  if (pendingCategory) {
+    addCategory(pendingCategory.percentage, pendingCategory);
+    pendingCategory = null; 
   }
 
+  modalBud.classList.remove("active");
+  categoriesBtn.style.display = "none";
+  categoriesName.disabled = true;
+  categoriesPer.disabled = true;
+  setButtonStateBud(true);
+  updateCategoriesTable(currentMonth);
+  updateSelectCategories(currentMonth);
+});
 
+
+function addCategory(newPercentage, catData = null) {
   budgetperValue -= newPercentage;
   budgetPerHistory[currentMonth] = budgetperValue;
   localStorage.setItem("budgetPerHistory", JSON.stringify(budgetPerHistory));
 
   budgetPer.textContent = `Your available %: ${budgetperValue}`;
 
-  let catData = {
+  let newCatData = catData || {
     id: `cat-${Date.now()}`,
     categories: getCategoryValue(),
     percentage: newPercentage,
   };
 
-  catHistory[currentMonth].push(catData);
+  catHistory[currentMonth].push(newCatData);
   localStorage.setItem("catData", JSON.stringify(catHistory));
 
   categoriesName.style.display = "inline-block";
@@ -282,13 +302,19 @@ categoriesBtn.addEventListener("click", (e) => {
   otherInput.value = '';
 
   updateCategoriesTable(currentMonth);
-});
+}
 
 
 function showModalBudget() {
   modalBud.classList.add("active");
-  console.log('active')
 }
+
+function closeModalBudget() {
+  modalBud.classList.add("remove");
+ 
+}
+
+
 
 //Expenses section
 const expenseName = document.getElementById("expense-name");
@@ -370,7 +396,7 @@ expenseBtn.addEventListener("click", (e) => {
     modalper.classList.add("active");
     return;
   }
-//  console.log(monthExpenses)
+
   const expenseDataItem = {
     id: `expense-${Date.now()}`,
     amount: expenseAmountValue,
@@ -425,7 +451,7 @@ function calculateTotalPercentages(data) {
 
   data.forEach(entry => {
       let category = entry.categories;
-      let percentage = parseFloat(entry.actualPer); // Convert string to number
+      let percentage = parseFloat(entry.actualPer); 
 
       if (!categoryTotals[category]) {
           categoryTotals[category] = 0;
@@ -482,15 +508,13 @@ function updateExpenseSection(selectedMonth) {
     let uniqueCategories = new Set(); 
     let tableHTML = ""; 
     let totalPercentages = calculateTotalPercentages(monthExpenses);
- 
-// Display the result
-console.log("Total Percentages per Category:", totalPercentages);
+
 if (!catHistory[selectedMonth]) {
   catHistory[selectedMonth] = [];
 }
     catHistory[selectedMonth].forEach(entry => {
         if (!uniqueCategories.has(entry.categories)) {
-            uniqueCategories.add(entry.categories); // Mark category as processed
+            uniqueCategories.add(entry.categories); 
             let totalPercentage = totalPercentages[entry.categories] || 0;
             tableHTML += `
                 <table class="spending-table">
@@ -569,35 +593,34 @@ function getSpendingHistory() {
   const currentMonth = selectedMonthElement
     ? selectedMonthElement.value
     : moment().format("MMMM");
+
   const tableBody = document.querySelector("#home .spending-table tbody");
   const monthExpenses = history[currentMonth] || [];
-
-
   tableBody.innerHTML = "";
 
-  if (!monthExpenses.length) {
-    return; 
-  }
+  if (!monthExpenses.length) return;
 
   let totalPercentages = calculateTotalPercentages(monthExpenses);
   let processedCategories = new Set();
 
+
   if (!catHistory[currentMonth] || !Array.isArray(catHistory[currentMonth])) {
-    console.warn(`No category data found for ${currentMonth}`);
-    return; 
+    return;
   }
 
   catHistory[currentMonth].forEach((entry) => {
-    if (!processedCategories.has(entry.categories)) {
+    const actualPer = totalPercentages[entry.categories] || 0;
+
+
+    if (actualPer > 0) {
       processedCategories.add(entry.categories);
 
-      const actualPer = totalPercentages[entry.categories] || 0;
       const userDefinedPer = parseFloat(entry.percentage);
-
       let backgroundColor;
+
       if (actualPer <= userDefinedPer) {
         backgroundColor = "green";
-      } else if (actualPer <= userDefinedPer * 1.2) { 
+      } else if (actualPer <= userDefinedPer * 1.2) {
         backgroundColor = "yellow";
       } else {
         backgroundColor = "red";
@@ -610,10 +633,7 @@ function getSpendingHistory() {
           <div class="containerStyles">
             <div 
               class="fillerStyles" 
-              style="width: ${Math.min(
-                actualPer,
-                100
-              )}%; background-color: ${backgroundColor};">
+              style="width: ${Math.min(actualPer, 100)}%; background-color: ${backgroundColor};">
               <span class="labelStyles"></span>
             </div>
           </div>
@@ -623,7 +643,9 @@ function getSpendingHistory() {
       tableBody.appendChild(historyDiv);
     }
   });
+
 }
+
 
 
 
@@ -849,6 +871,7 @@ function setEditMode(selectedMonth) {
   if (isCurrent && !getButtonStateBud()) {
     openModalButtons.style.display = "inline-block";
     expenseBtn.style.display = 'block' 
+
   } else {
     categoriesBtn.style.display = "none";
     expenseBtn.style.display = '' 
@@ -906,10 +929,12 @@ function setButtonStateBud(state) {
 function updateDisplayExpense(){
   if(!getButtonStateBud()){
     expenseBtn.style.display = 'none' 
-    console.log('working here')   
+    monthexp.textContent = `Complete your budget before adding expenses`;
+
   } else {
     expenseBtn.style.display = 'inline-block' 
-    console.log('okay here')
+    monthexp.textContent = `Expenses`;
+
   }
   updateExpenseSection(currentMonth)
 }
