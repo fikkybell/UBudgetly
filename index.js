@@ -247,7 +247,10 @@ categoriesBtn.addEventListener("click", (e) => {
     modalExceed.classList.add("active");
     return;
   }
-
+  if (isNaN(newPercentage) || newPercentage <= 0) {
+    // alert("Please enter a valid percentage");
+    return;
+  }
   if (currentTotal + newPercentage === 100) {
     showModalBudget(); 
     pendingCategory = {
