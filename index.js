@@ -191,6 +191,8 @@ const closeDuplicate = document.getElementById('close-btn-duplicate')
 const modalDuplicate = document.getElementById('modalbud-duplicate')
 const closeModalExceed = document.getElementById('close-btn-more')
 const modalExceed = document.getElementById('modalbud-more')
+const modalInvalidBud = document.getElementById('modal-invalidBud')
+const closeModalInvalidBud = document.getElementById('close-btn-invalidbud')
 let catHistory =  JSON.parse(localStorage.getItem('catData')) || {}
 let budgetPerHistory = JSON.parse(localStorage.getItem("budgetPerHistory")) || {}; 
 let budgetperValue = budgetPerHistory[currentMonth] !== undefined ? budgetPerHistory[currentMonth] : 100;
@@ -211,6 +213,10 @@ closeDuplicate.addEventListener('click', (e)=>{
 closeModalExceed.addEventListener('click', (e)=>{
   e.preventDefault()
   modalExceed.classList.remove("active");
+})
+closeModalInvalidBud.addEventListener('click', (e)=>{
+  e.preventDefault()
+  modalInvalidBud.classList.remove("active");
 })
 function getCategoryValue() {
   return categoriesName.value === "Other" ? otherInput.value : categoriesName.value;
@@ -238,6 +244,7 @@ categoriesBtn.addEventListener("click", (e) => {
   }
 
   const newPercentage = parseFloat(categoriesPer.value);
+  const categoriesValue = categoriesName.value
   const monthExpenses = Object.values(catHistory[currentMonth] || {});
   const currentTotal = monthExpenses.reduce(
     (acc, item) => acc + parseFloat(item.percentage), 0
@@ -247,8 +254,8 @@ categoriesBtn.addEventListener("click", (e) => {
     modalExceed.classList.add("active");
     return;
   }
-  if (isNaN(newPercentage) || newPercentage <= 0) {
-    // alert("Please enter a valid percentage");
+  if (isNaN(newPercentage) || newPercentage <= 0 || (categoriesName.value === "Other" && otherInput.value.trim() === '')) {
+    modalInvalidBud.classList.add("active");
     return;
   }
   if (currentTotal + newPercentage === 100) {
@@ -261,6 +268,7 @@ categoriesBtn.addEventListener("click", (e) => {
     return;
   }
   updateSelectCategories(currentMonth);
+  
   addCategory(newPercentage);
 });
 
@@ -333,13 +341,15 @@ const modalper = document.getElementById("modal-per");
 const closeexpModal = document.getElementById("close-btn-exp");
 const closeexpInvalid = document.getElementById("close-btn-invalid");
 const closeexper = document.getElementById("close-btn-per");
+const duplicateModal = document.getElementById("modal-duplicate");
+const closeDuplicateModal = document.getElementById("close-duplicate");
 // expenseBtn.style.display = 'none' 
 // disable expense 
 
 closeexpModal.addEventListener("click", (e) => {
   e.preventDefault();
   modalExp.classList.remove("active");
-  modalInvalid.classList.remove("active");
+  // modalInvalid.classList.remove("active");
 });
 
 closeexpInvalid.addEventListener("click", (e) => {
@@ -350,7 +360,10 @@ closeexper.addEventListener("click", (e) => {
   e.preventDefault();
   modalper.classList.remove("active");
 });
-
+closeDuplicateModal.addEventListener("click", (e) => {
+  e.preventDefault();
+  duplicateModal.classList.remove("active");
+});
 expenseBtn.addEventListener("click", (e) => {
   e.preventDefault();
 
@@ -365,7 +378,7 @@ expenseBtn.addEventListener("click", (e) => {
 
   let totalIncomeValue = incomeHistory[selectedMonthElement.value] || 0;
   let fixIncomeValue =
-    incomeHistoryFixed[selectedMonthElement.value][0].amount || 0;
+  incomeHistoryFixed[selectedMonthElement.value][0].amount || 0;
 
   const expenseAmountValue = parseFloat(expenseAmount.value);
   // const expPervalue = parseFloat(expensePer.value);
@@ -392,9 +405,16 @@ expenseBtn.addEventListener("click", (e) => {
     (acc, item) => acc + parseFloat(item.actualPer),
     0
   );
-
-
-
+ 
+  let isDuplicate = Array.isArray(expenseHistoryData[currentMonth]) 
+  ? expenseHistoryData[currentMonth].some(item => 
+      item.name.trim().toLowerCase() === expenseName.value.trim().toLowerCase()) 
+  : false;
+  
+  if(isDuplicate){
+    duplicateModal.classList.add("active");
+    return
+  }
   if (currentTotal + parseFloat(actualPercentage.toFixed(0)) > 100) {
     modalper.classList.add("active");
     return;
@@ -449,18 +469,35 @@ function updateSelectCategories(selectedMonth) {
 }
 
 // Calculate Total Percentage Per Category
-function calculateTotalPercentages(data) {
+function calculateTotalAmount(data) {
   let categoryTotals = {};
 
   data.forEach(entry => {
       let category = entry.categories;
-      let percentage = parseFloat(entry.actualPer); 
+      let amount = parseFloat(entry.amount); 
 
       if (!categoryTotals[category]) {
           categoryTotals[category] = 0;
       }
 
-      categoryTotals[category] += percentage;
+      categoryTotals[category] += amount;
+  });
+
+  return categoryTotals;
+}
+
+function calculateTotalPercentages(data) {
+  let categoryTotals = {};
+
+  data.forEach(entry => {
+      let category = entry.categories;
+      let amount = parseFloat(entry.actualPer); 
+
+      if (!categoryTotals[category]) {
+          categoryTotals[category] = 0;
+      }
+
+      categoryTotals[category] += amount;
   });
 
   return categoryTotals;
@@ -694,10 +731,9 @@ function renderCharts(selectedMonth) {
   const incomeHistory = JSON.parse(localStorage.getItem("incomeHistory")) || {};
   const income = incomeHistory[selectedMonth] || 0;
   const monthExpenses = history[selectedMonth] || [];
-  const catSelectHistory = catHistory[selectedMonth] || [];
-  let totalPercentages = calculateTotalPercentages(monthExpenses);
-
-
+  // const catSelectHistory = catHistory[selectedMonth] || [];
+  let totalPercentages = calculateTotalAmount(monthExpenses);
+   
   let processedCategories = new Set();
   let expenseData = [];
   let expenseLabels = [];
@@ -707,13 +743,13 @@ function renderCharts(selectedMonth) {
       processedCategories.add(category);
       expenseLabels.push(category);
       expenseData.push(totalPercentages[category]); 
+     
     }
   });
-
+  const amounts = Object.values(monthExpenses).map(item => item.amount);
   const totalExpenses = expenseData.reduce((sum, val) => sum + val, 0); 
-
+  const totalAmount = amounts.reduce((sum, val) => sum + val, 0); 
   
-
   const expenseChartContainer = document.querySelector(".expense-chart");
   const budgetChartContainer = document.querySelector(".budget.chart");
 
@@ -725,7 +761,6 @@ function renderCharts(selectedMonth) {
     const expenseCanvas = document.createElement("canvas");
     expenseCanvas.id = "expenseChart";
     expenseChartContainer.appendChild(expenseCanvas);
-
     const expenseCtx = expenseCanvas.getContext("2d");
     new Chart(expenseCtx, {
       type: "doughnut",
@@ -772,7 +807,7 @@ function renderCharts(selectedMonth) {
         datasets: [
           {
             label: "Budget Distribution",
-            data: [income, totalExpenses],
+            data: [income, totalAmount],
             backgroundColor: [
               "rgba(75, 192, 192, 0.6)",
               "rgba(255, 99, 132, 0.6)",
@@ -909,10 +944,12 @@ function handleDeleteBudget(entryId, selectedMonth) {
     monthExpenses = monthExpenses.filter((item) => String(item.id) !== String(entryId));
     catHistoryData[selectedMonth] = monthExpenses;
     localStorage.setItem("catData", JSON.stringify(catHistoryData));
+    catHistory = JSON.parse(localStorage.getItem("catData")) || {};
 
     updateCategoriesTable(selectedMonth);
+    updateSelectCategories(selectedMonth);
   } catch (err) {
-    console.log("Error deleting category:", err);
+    // console.log("Error deleting category:", err);
   }
 }
 
