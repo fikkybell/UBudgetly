@@ -65,9 +65,11 @@ Mobile app version
 
 
 🤝 Contribution
+
 Feel free to fork this project and submit a pull request. Contributions are welcome!
 
 
 👩‍💻 Author
+
 Created by Afolasade Bello
 
